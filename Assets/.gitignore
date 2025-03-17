@@ -1,0 +1,28 @@
+# Archivos y carpetas generadas por Unity
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+MemoryCaptures/
+
+# Configuraciones locales
+UserSettings/
+.DS_Store
+Thumbs.db
+
+# Archivos de Visual Studio y JetBrains Rider
+.vs/
+*.csproj
+*.sln
+*.user
+*.unityproj
+.idea/
+*.pidb
+*.suo
+*.tmp
+*.svd
+
+# Archivos de Unity Collab
+/Assets/StreamingAssets/

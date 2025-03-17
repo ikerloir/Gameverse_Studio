@@ -1,0 +1,24 @@
+# Archivos y carpetas generadas por Unity que no deben subirse
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+MemoryCaptures/
+
+# Configuraciones locales de Unity
+UserSettings/
+.vs/
+.vsconfig
+
+# Archivos de Visual Studio
+*.csproj
+*.sln
+*.user
+*.unityproj
+*.pidb
+*.suo
+*.tmp
+*.svd
+.idea/
