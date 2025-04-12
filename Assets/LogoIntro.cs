@@ -6,15 +6,15 @@ public class LogoIntro : MonoBehaviour
 {
     public Image logoImage; // La imagen del logo
     public AudioSource introMusic; // Audio de la intro
-    public float fadeInDuration = 2f; // Duraci�n del fade-in
-    public float shakeDuration = 1f; // Duraci�n del temblor
+    public float fadeInDuration = 2f; // Duración del fade-in
+    public float shakeDuration = 1f; // Duración del temblor
     public float shakeIntensity = 2f; // Intensidad del temblor
 
     private Vector3 originalPosition;
 
     void Start()
     {
-        // Guardar la posici�n inicial del logo
+        // Guardar la posición inicial del logo
         originalPosition = logoImage.transform.position;
 
         // Hacer la imagen completamente transparente al inicio
@@ -28,7 +28,7 @@ public class LogoIntro : MonoBehaviour
 
     IEnumerator PlayIntroEffects()
     {
-        // Reproducir m�sica de la intro
+        // Reproducir música de la intro
         if (introMusic != null)
         {
             introMusic.Play();
@@ -53,8 +53,6 @@ public class LogoIntro : MonoBehaviour
 
         // Efecto de temblor
         yield return StartCoroutine(ShakeEffect());
-
-        // Puedes agregar aqu� la transici�n a otra escena despu�s de la animaci�n
     }
 
     IEnumerator ShakeEffect()
@@ -69,7 +67,7 @@ public class LogoIntro : MonoBehaviour
             yield return null;
         }
 
-        // Restaurar la posici�n original
+        // Restaurar la posición original
         logoImage.transform.position = originalPosition;
     }
 }
