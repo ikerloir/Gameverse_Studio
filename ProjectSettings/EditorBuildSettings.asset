@@ -36,7 +36,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Score.unity
     guid: e26a8e352b6ede347b4333c770a430eb
   - enabled: 1
-    path: Assets/MiniGames/4_UltimateDefense/Assets/Scenes/ARgame.unity
+    path: Assets/MiniGames/4_UltimateDefense/Assets/Scenes/UltimateDefense.unity
     guid: 1e474ddea0675784a997bb3a09168d4d
   - enabled: 1
     path: Assets/MiniGames/2_UltimateDelivery/Scenes/UltimateDelivery.unity

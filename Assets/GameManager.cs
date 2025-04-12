@@ -18,11 +18,11 @@ public class GameManager : MonoBehaviour
         Menu,
         GameSelect,
         Score,
-        AirboneDanger,
-        UltimateDelivery,
-        Game3DB,
-        ARgame,
-        GameVR
+        AirboneDanger,      // 1_AirboneDanger
+        UltimateDelivery,   // 2_UltimateDelivery
+        MortalBag,          // 3_MortalBag
+        UltimateDefense,    // 4_UltimateDefense
+        ZeroZoneVR          // 5_ZeroZoneVR
     }
 
     // Lista de juegos en orden para el modo Guerra Total
@@ -30,9 +30,9 @@ public class GameManager : MonoBehaviour
     {
         GameScenes.AirboneDanger,
         GameScenes.UltimateDelivery,
-        GameScenes.Game3DB,
-        GameScenes.ARgame,
-        GameScenes.GameVR
+        GameScenes.MortalBag,
+        GameScenes.UltimateDefense,
+        GameScenes.ZeroZoneVR
     };
 
     [System.Serializable]
@@ -119,5 +119,10 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         SceneManager.LoadScene("Menu");
+    }
+
+    public bool IsInWarMode()
+    {
+        return isWarMode;
     }
 }
