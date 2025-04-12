@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public int globalScore = 0;
+    private bool isWarMode = false;
+    private int currentGameIndex = 0;
 
     // Enum con todas las escenas disponibles
     public enum GameScenes
@@ -18,19 +20,29 @@ public class GameManager : MonoBehaviour
         Score,
         AirboneDanger,
         UltimateDelivery,
-        MortalBag,
-        UltimateDefense,
-        ZeroZone
+        Game3DB,
+        ARgame,
+        GameVR
     }
+
+    // Lista de juegos en orden para el modo Guerra Total
+    private GameScenes[] warModeGames = new GameScenes[]
+    {
+        GameScenes.AirboneDanger,
+        GameScenes.UltimateDelivery,
+        GameScenes.Game3DB,
+        GameScenes.ARgame,
+        GameScenes.GameVR
+    };
 
     [System.Serializable]
     public class SceneButtonPair
     {
-        public GameScenes scene; // Escena a la que cambiar el botón
-        public Button button;    // Botón que activar la escena
+        public GameScenes scene;
+        public Button button;
     }
 
-    public List<SceneButtonPair> sceneButtons; // Lista de botones asignables en el Inspector
+    public List<SceneButtonPair> sceneButtons;
 
     private void Awake()
     {
@@ -70,7 +82,37 @@ public class GameManager : MonoBehaviour
 
     public void LoadScene(GameScenes scene)
     {
+        if (scene == GameScenes.Menu)
+        {
+            isWarMode = false;
+            currentGameIndex = 0;
+        }
         SceneManager.LoadScene(scene.ToString());
+    }
+
+    public void StartWarMode()
+    {
+        isWarMode = true;
+        currentGameIndex = 0;
+        LoadNextWarModeGame();
+    }
+
+    public void LoadNextWarModeGame()
+    {
+        if (!isWarMode) return;
+
+        if (currentGameIndex < warModeGames.Length)
+        {
+            SceneManager.LoadScene(warModeGames[currentGameIndex].ToString());
+            currentGameIndex++;
+        }
+        else
+        {
+            // Hemos completado todos los juegos
+            isWarMode = false;
+            currentGameIndex = 0;
+            SceneManager.LoadScene("Score"); // O la escena que prefieras para mostrar la puntuación final
+        }
     }
 
     private IEnumerator LoadMenuAfterDelay(float delay)

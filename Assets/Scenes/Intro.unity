@@ -250,7 +250,6 @@ GameObject:
   m_Component:
   - component: {fileID: 875839661}
   - component: {fileID: 875839663}
-  - component: {fileID: 875839662}
   m_Layer: 0
   m_Name: GVSLogo4
   m_TagString: Untagged
@@ -273,23 +272,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2056407203}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &875839662
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 875839660}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fe1cc5ea0a06a745aab1f10a6299fd3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  logoImage: {fileID: 0}
-  introMusic: {fileID: 0}
-  fadeInDuration: 2
-  shakeDuration: 1
-  shakeIntensity: 2
 --- !u!212 &875839663
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -707,7 +689,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2056876501}
-  - component: {fileID: 2056876500}
+  - component: {fileID: 2056876502}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -715,20 +697,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2056876500
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2056876499}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5a507f25a7566746a33d8fb4b675fac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  globalScore: 0
-  sceneButtons: []
 --- !u!4 &2056876501
 Transform:
   m_ObjectHideFlags: 0
@@ -744,6 +712,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2056876502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2056876499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ab643b7fe460c54f90306d1c4928a23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  globalScore: 0
+  sceneButtons: []
 --- !u!1 &2095487924
 GameObject:
   m_ObjectHideFlags: 0

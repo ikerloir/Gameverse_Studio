@@ -4,13 +4,20 @@ using UnityEngine.UI;
 
 public class MenuUI : MonoBehaviour
 {
-    public Button playButton;
+    public Button jugarGerraTotalButton;
+    public Button jugarJuegoIndividualButton;
     public Button exitButton;
 
     void Start()
     {
-        playButton.onClick.AddListener(LoadGameSelect);
+        jugarGerraTotalButton.onClick.AddListener(StartWarMode);
+        jugarJuegoIndividualButton.onClick.AddListener(LoadGameSelect);
         exitButton.onClick.AddListener(ExitGame);
+    }
+
+    void StartWarMode()
+    {
+        GameManager.Instance.StartWarMode();
     }
 
     void LoadGameSelect()
