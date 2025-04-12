@@ -70,7 +70,7 @@ public class GameManagerAirboneDanger : MonoBehaviour
 
     void VolverAlMenuSelectGame()
     {
-        // Cargar la escena "GameSelect"
+       
         UnityEngine.SceneManagement.SceneManager.LoadScene("GameSelect");
     }
 }
