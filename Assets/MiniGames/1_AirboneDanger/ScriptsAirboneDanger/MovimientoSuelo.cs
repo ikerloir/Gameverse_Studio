@@ -12,7 +12,7 @@ public class MovimientoSuelo : MonoBehaviour
     public GameManagerAirboneDanger gameManagerAirboneDanger;
 
 
-    private Vector3 startPosition; // Posición inicial del mar
+    private Vector3 startPosition; // Posición inicial del suelo
     private float repeatWidth; // Ancho del suelo 
 
     void Start()

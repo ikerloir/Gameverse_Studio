@@ -6,13 +6,13 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Intro.unity
+    path: Assets/CrazyAirport/Scenes/Intro.unity
     guid: af2e0e3a7fe770745897b86741b784e9
   - enabled: 1
-    path: Assets/Scenes/Menu.unity
+    path: Assets/CrazyAirport/Scenes/Menu.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
-    path: Assets/Scenes/GameSelect.unity
+    path: Assets/CrazyAirport/Scenes/GameSelect.unity
     guid: 2aa67dd667a8274489d1ac4bc0cef1b9
   - enabled: 1
     path: Assets/MiniGames/1_AirboneDanger/Scene/AirboneDanger.unity
@@ -33,7 +33,7 @@ EditorBuildSettings:
     path: Assets/MiniGames/5_ZeroZoneVR/ZeroZoneVR.unity
     guid: e6d09c2ddacf4524b81acc5bb963376d
   - enabled: 1
-    path: Assets/Scenes/Score.unity
+    path: Assets/CrazyAirport/Scenes/Score.unity
     guid: e26a8e352b6ede347b4333c770a430eb
   - enabled: 1
     path: Assets/MiniGames/4_UltimateDefense/Assets/Scenes/UltimateDefense.unity
