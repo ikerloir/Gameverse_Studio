@@ -16,8 +16,8 @@ public class GameSelectUI : MonoBehaviour
         game1Button.onClick.AddListener(() => LoadGame("AirboneDanger"));
         game2Button.onClick.AddListener(() => LoadGame("UltimateDelivery"));
         game3Button.onClick.AddListener(() => LoadGame("MortalBag"));
-        gameARButton.onClick.AddListener(() => LoadGame("ARgame"));
-        gameVRButton.onClick.AddListener(() => LoadGame("GameVR"));
+        gameARButton.onClick.AddListener(() => LoadGame("UltimateDefense"));
+        gameVRButton.onClick.AddListener(() => LoadGame("ZeroZoneVR"));
         backButton.onClick.AddListener(LoadMainMenu);
     }
 
