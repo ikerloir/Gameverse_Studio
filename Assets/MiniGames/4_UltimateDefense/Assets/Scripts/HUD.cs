@@ -1,13 +1,13 @@
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class LifeHUD : MonoBehaviour
 {
-    public Slider lifeSlider;
+    public TextMeshProUGUI lifeText;
 
     public void UpdateLife(int value)
     {
-        if (lifeSlider != null)
-            lifeSlider.value = value;
+        if (lifeText != null)
+            lifeText.text = "" + value.ToString();
     }
 }
