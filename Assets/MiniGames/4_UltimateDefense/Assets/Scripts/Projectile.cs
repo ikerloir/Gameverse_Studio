@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
@@ -20,13 +20,12 @@ public class Projectile : MonoBehaviour
 
     void Start()
     {
-        Debug.Log($"🚀 [Projectile] Bala creada: {gameObject.name}");
         Destroy(gameObject, lifeTime);
     }
 
     void Update()
     {
-        if (GetComponent<Rigidbody>() == null)
+        if (TryGetComponent(out Rigidbody rb) == false)
         {
             transform.position += direction * speed * Time.deltaTime;
         }
@@ -36,29 +35,17 @@ public class Projectile : MonoBehaviour
     {
         Debug.Log($"[Projectile] Trigger con: {other.name} | Tag: {other.tag}");
 
-        // Quita esta validación mientras depuras, luego puedes volver a activarla
-        // if (!other.CompareTag(targetTag)) return;
+        if (!string.IsNullOrEmpty(targetTag) && !other.CompareTag(targetTag))
+            return;
 
-        // Buscar componentes relevantes
-        var th = other.GetComponent<TargetHealth>() ?? other.GetComponentInParent<TargetHealth>();
-        var epc = other.GetComponent<EnemyPlaneCombat>() ?? other.GetComponentInParent<EnemyPlaneCombat>();
-
-        if (th != null)
+        if (other.TryGetComponent(out IDamageable damageable))
         {
-            Debug.Log("[Projectile] ✔ Aplicando daño a TargetHealth");
-            th.TakeDamage(damage, this.gameObject);
+            damageable.TakeDamage(damage, this.gameObject);
         }
 
-        if (epc != null)
-        {
-            Debug.Log("[Projectile] ✔ Aplicando daño a EnemyPlaneCombat");
-            epc.TakeDamage(damage, this.gameObject);
-        }
-
-        // Impacto visual y sonido
         if (impactEffectPrefab != null)
         {
-            GameObject fx = Instantiate(impactEffectPrefab, transform.position, Quaternion.identity);
+            var fx = Instantiate(impactEffectPrefab, transform.position, Quaternion.identity);
             Destroy(fx, 2f);
         }
 

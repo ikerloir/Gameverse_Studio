@@ -17,6 +17,17 @@ public class WeaponShooter : MonoBehaviour
     public bool isStarPowerActive = false;
 
     private float nextFireTime = 0f;
+    private GunRecoil recoil1;
+    private GunRecoil recoil2;
+
+    void Start()
+    {
+        if (muzzle1 != null)
+            recoil1 = muzzle1.GetComponent<GunRecoil>();
+
+        if (muzzle2 != null)
+            recoil2 = muzzle2.GetComponent<GunRecoil>();
+    }
 
     void Update()
     {
@@ -44,17 +55,22 @@ public class WeaponShooter : MonoBehaviour
         {
             nextFireTime = Time.time + fireRate;
 
-            ShootFromMuzzle(muzzle1);
-            ShootFromMuzzle(muzzle2);
+            ShootFromMuzzle(muzzle1, recoil1);
+            ShootFromMuzzle(muzzle2, recoil2);
         }
     }
 
-    void ShootFromMuzzle(Transform muzzle)
+    void ShootFromMuzzle(Transform muzzle, GunRecoil recoil)
     {
         if (muzzle == null)
         {
             Debug.LogWarning("⚠️ [WeaponShooter] Muzzle no asignado.");
             return;
+        }
+
+        if (recoil != null)
+        {
+            recoil.TriggerRecoil();
         }
 
         Vector3 spawnPosition = muzzle.position;
