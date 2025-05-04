@@ -13,7 +13,7 @@ public class GameSelectUI : MonoBehaviour
 
     void Start()
     {
-        game1Button.onClick.AddListener(() => LoadGame("AirboneDanger"));
+        game1Button.onClick.AddListener(() => LoadGame("IntroAirboneDanger"));
         game2Button.onClick.AddListener(() => LoadGame("UltimateDelivery"));
         game3Button.onClick.AddListener(() => LoadGame("MortalBag"));
         gameARButton.onClick.AddListener(() => LoadGame("UltimateDefense"));

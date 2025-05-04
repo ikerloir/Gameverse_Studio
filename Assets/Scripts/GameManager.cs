@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
         Menu,
         GameSelect,
         Score,
-        AirboneDanger,      // 1_AirboneDanger
+        IntroAirboneDanger,      // 1_AirboneDanger
         UltimateDelivery,   // 2_UltimateDelivery
         MortalBag,          // 3_MortalBag
         UltimateDefense,    // 4_UltimateDefense
@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
     // Lista de juegos en orden para el modo Guerra Total
     private GameScenes[] warModeGames = new GameScenes[]
     {
-        GameScenes.AirboneDanger,
+        GameScenes.IntroAirboneDanger,
         GameScenes.UltimateDelivery,
         GameScenes.MortalBag,
         GameScenes.UltimateDefense,
