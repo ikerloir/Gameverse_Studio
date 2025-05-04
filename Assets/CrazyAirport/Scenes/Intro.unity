@@ -586,6 +586,59 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!1 &1665026298
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1665026300}
+  - component: {fileID: 1665026299}
+  m_Layer: 0
+  m_Name: MusicManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1665026299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1665026298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fb76e24faf440f409b73fc199ed1cb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  musicSource: {fileID: 0}
+  introMusic: {fileID: 8300000, guid: 1b612ea91caa49f49979a9e213a693ef, type: 3}
+  menuMusic: {fileID: 8300000, guid: c5b5a86a05a4fa748bcf0f128662fd3a, type: 3}
+  introAirboneDangerMusic: {fileID: 8300000, guid: 8310c03f02828444fbb6c9371417d7a5, type: 3}
+  ultimateDeliveryMusic: {fileID: 8300000, guid: 70b11bf620ea41043a07888402a26e6a, type: 3}
+  mortalBagMusic: {fileID: 8300000, guid: 7e7cfefe75c87a74f86741f831476580, type: 3}
+  ultimateDefenseMusic: {fileID: 8300000, guid: 6afeebf44977acd4590dcb471bfbf928, type: 3}
+  zeroZoneVRMusic: {fileID: 8300000, guid: 97a3355649e9f1c4faf93f28eb2d3220, type: 3}
+  scoreScene: {fileID: 8300000, guid: 38c694ef7c0dced4a99f490930a9ef10, type: 3}
+--- !u!4 &1665026300
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1665026298}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2056407202
 GameObject:
   m_ObjectHideFlags: 0
@@ -836,3 +889,4 @@ SceneRoots:
   - {fileID: 225783750}
   - {fileID: 2056876501}
   - {fileID: 1351958481}
+  - {fileID: 1665026300}

@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
 
     public AudioSource audioSourceGetGasolina;
     public AudioSource audioSourceEnemigo;
+    public AudioSource audioSourceArmaduraBaja;
     public GameManagerAirboneDanger gameManagerAirboneDanger;
     public float speed;
     public FloatingJoystick floatingJoystick;
@@ -105,6 +106,11 @@ public class PlayerController : MonoBehaviour
             Destroy(other.gameObject);
             Instantiate(enemigoParticle, gameObject.transform.position, enemigoParticle.transform.rotation);
             audioSourceEnemigo.Play();
+
+            if(gameManagerAirboneDanger.Escudo == 1)
+            {
+                audioSourceArmaduraBaja.Play();
+            }
 
             
             

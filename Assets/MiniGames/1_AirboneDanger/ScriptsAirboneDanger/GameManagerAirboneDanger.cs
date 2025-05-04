@@ -13,11 +13,13 @@ public class GameManagerAirboneDanger : MonoBehaviour
     public TextMeshProUGUI escudoTexto;
     private GameObject jugador;
     public Button volver;
+    public AudioSource audioSourceGameOver;
 
     private int puntuacion = 0;
     private int escudo = 5;
+    public int Escudo => escudo;
 
-    
+
     public void StartGame()
     {
         
@@ -32,7 +34,9 @@ public class GameManagerAirboneDanger : MonoBehaviour
     {
         isGameActive = false;
         gameOver.gameObject.SetActive(true);
+        audioSourceGameOver.Play();
         volver.gameObject.SetActive(true);
+
         
     }
     public void UpdateScore(int score)
@@ -50,6 +54,7 @@ public class GameManagerAirboneDanger : MonoBehaviour
     {
         escudo -= removeEsc;
         escudoTexto.text = "Escudo: " + escudo;
+       
 
         if (escudo == 0)
         {
