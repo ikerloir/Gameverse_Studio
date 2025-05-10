@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class PlayerController : MonoBehaviour
 
@@ -12,10 +13,16 @@ public class PlayerController : MonoBehaviour
     private float limiteInferior = 1.0f;
     private float anguloInclinacion = 45f;
     private Rigidbody rb;
-   
+
+    public AudioSource audioSourceGetGasolina;
+    public AudioSource audioSourceEnemigo;
+    public AudioSource audioSourceArmaduraBaja;
     public GameManagerAirboneDanger gameManagerAirboneDanger;
     public float speed;
     public FloatingJoystick floatingJoystick;
+    public ParticleSystem getGasolinaParticle;
+    public ParticleSystem enemigoParticle;
+    
 
 
 
@@ -24,11 +31,13 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();               
         gameManagerAirboneDanger = GameObject.Find("GameManagerAirboneDanger").GetComponent<GameManagerAirboneDanger>();
         gameManagerAirboneDanger.StartGame();
-
+       
+        
     }
 
     public void Update()
     {
+        
         // guardamos los moviminetos del jostick en variables
         horizontalInput = floatingJoystick.Horizontal;
         verticalInput = floatingJoystick.Vertical;
@@ -86,6 +95,8 @@ public class PlayerController : MonoBehaviour
             gameManagerAirboneDanger.UpdateScore(50);
             
             Destroy(other.gameObject);
+            Instantiate(getGasolinaParticle, gameObject.transform.position, getGasolinaParticle.transform.rotation);
+            audioSourceGetGasolina.Play();
         }
         else if (other.CompareTag("Enemigo"))
         {
@@ -93,6 +104,13 @@ public class PlayerController : MonoBehaviour
             gameManagerAirboneDanger.UpdateEscudo(1);        
            
             Destroy(other.gameObject);
+            Instantiate(enemigoParticle, gameObject.transform.position, enemigoParticle.transform.rotation);
+            audioSourceEnemigo.Play();
+
+            if(gameManagerAirboneDanger.Escudo == 1)
+            {
+                audioSourceArmaduraBaja.Play();
+            }
 
             
             

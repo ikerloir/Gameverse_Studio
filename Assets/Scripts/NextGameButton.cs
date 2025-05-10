@@ -6,11 +6,13 @@ using UnityEngine.SceneManagement;
 public class NextGameButton : MonoBehaviour
 {
     private Button button;
+    private MusicManager musicManager;
 
     void Awake()
     {
         button = GetComponent<Button>();
         button.onClick.AddListener(OnButtonClick);
+        musicManager = MusicManager.Instance;
     }
 
     void OnButtonClick()
@@ -25,7 +27,8 @@ public class NextGameButton : MonoBehaviour
             // Si estamos en modo individual, volvemos al menú principal
             else
             {
-                GameManager.Instance.LoadScene(GameManager.GameScenes.Menu);
+                GameManager.Instance.ButtonLoadScene(GameManager.GameScenes.Menu);
+                musicManager.PlayMusic(musicManager.menuMusic, true);
             }
         }
     }

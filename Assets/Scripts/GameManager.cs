@@ -10,6 +10,9 @@ public class GameManager : MonoBehaviour
     public int globalScore = 0;
     private bool isWarMode = false;
     private int currentGameIndex = 0;
+    private AudioClip[] warModeMusic;
+
+
 
     // Enum con todas las escenas disponibles
     public enum GameScenes
@@ -18,7 +21,7 @@ public class GameManager : MonoBehaviour
         Menu,
         GameSelect,
         Score,
-        AirboneDanger,      // 1_AirboneDanger
+        IntroAirboneDanger,      // 1_AirboneDanger
         UltimateDelivery,   // 2_UltimateDelivery
         MortalBag,          // 3_MortalBag
         UltimateDefense,    // 4_UltimateDefense
@@ -28,12 +31,15 @@ public class GameManager : MonoBehaviour
     // Lista de juegos en orden para el modo Guerra Total
     private GameScenes[] warModeGames = new GameScenes[]
     {
-        GameScenes.AirboneDanger,
+        GameScenes.IntroAirboneDanger,
         GameScenes.UltimateDelivery,
         GameScenes.MortalBag,
         GameScenes.UltimateDefense,
         GameScenes.ZeroZoneVR
     };
+
+   
+
 
     [System.Serializable]
     public class SceneButtonPair
@@ -59,18 +65,37 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        if (MusicManager.Instance != null)     
+        {
+            warModeMusic = new AudioClip[]
+            {
+            MusicManager.Instance.introAirboneDangerMusic,
+            MusicManager.Instance.ultimateDeliveryMusic,
+            MusicManager.Instance.mortalBagMusic,
+            MusicManager.Instance.ultimateDefenseMusic,
+            MusicManager.Instance.zeroZoneVRMusic
+            };
+        }
+        else
+        {
+            Debug.LogError("MusicManager.Instance es NULL, asegúrate de que MusicManager esté en la escena inicial.");
+        }
+
         // Si estamos en la escena "Intro", esperamos 3 segundos y cargamos "Menu"
         if (SceneManager.GetActiveScene().name == "Intro")
         {
+           
+            MusicManager.Instance.PlayMusic(MusicManager.Instance.introMusic,false);
             StartCoroutine(LoadMenuAfterDelay(3f));
         }
+        
 
         // Asignar botones desde el Inspector
         foreach (var sceneButton in sceneButtons)
         {
             if (sceneButton.button != null)
             {
-                sceneButton.button.onClick.AddListener(() => LoadScene(sceneButton.scene));
+                sceneButton.button.onClick.AddListener(() => ButtonLoadScene(sceneButton.scene));
             }
         }
     }
@@ -80,7 +105,7 @@ public class GameManager : MonoBehaviour
         globalScore += score;
     }
 
-    public void LoadScene(GameScenes scene)
+    public void ButtonLoadScene(GameScenes scene)
     {
         if (scene == GameScenes.Menu)
         {
@@ -103,6 +128,7 @@ public class GameManager : MonoBehaviour
 
         if (currentGameIndex < warModeGames.Length)
         {
+            MusicManager.Instance.PlayMusic(warModeMusic[currentGameIndex],true);
             SceneManager.LoadScene(warModeGames[currentGameIndex].ToString());
             currentGameIndex++;
         }
@@ -111,7 +137,9 @@ public class GameManager : MonoBehaviour
             // Hemos completado todos los juegos
             isWarMode = false;
             currentGameIndex = 0;
+            MusicManager.Instance.PlayMusic(MusicManager.Instance.scoreScene, true);
             SceneManager.LoadScene("Score"); // O la escena que prefieras para mostrar la puntuación final
+            
         }
     }
 
@@ -119,6 +147,10 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         SceneManager.LoadScene("Menu");
+
+        //nuevo
+        
+        MusicManager.Instance.PlayMusic(MusicManager.Instance.menuMusic,true);
     }
 
     public bool IsInWarMode()
