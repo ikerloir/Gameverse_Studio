@@ -37,7 +37,9 @@ public class GameManagerAirboneDanger : MonoBehaviour
         audioSourceGameOver.Play();
         volver.gameObject.SetActive(true);
 
-        
+        // ScoreManager.Instance.SetScore(GameManager.GameScenes.IntroAirboneDanger, puntuacion);
+
+
     }
     public void UpdateScore(int score)
     {

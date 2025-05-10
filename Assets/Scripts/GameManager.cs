@@ -100,10 +100,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void AddScore(int score)
-    {
-        globalScore += score;
-    }
+
 
     public void ButtonLoadScene(GameScenes scene)
     {
