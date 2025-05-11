@@ -65,6 +65,8 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        ScoreManager.Instance.ResetScores(); // Reinicia puntuaciones
+
         if (MusicManager.Instance != null)     
         {
             warModeMusic = new AudioClip[]
