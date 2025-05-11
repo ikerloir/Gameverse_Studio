@@ -35,9 +35,13 @@ public class GameManagerAirboneDanger : MonoBehaviour
         isGameActive = false;
         gameOver.gameObject.SetActive(true);
         audioSourceGameOver.Play();
-        volver.gameObject.SetActive(true);
+        //ya no se usa este boton
+        //volver.gameObject.SetActive(true);
 
-        
+        ScoreManager.Instance.SetScore(0, puntuacion); 
+
+
+
     }
     public void UpdateScore(int score)
     {

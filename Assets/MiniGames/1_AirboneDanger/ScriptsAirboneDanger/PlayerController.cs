@@ -92,7 +92,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.CompareTag("gasolina"))
         {
-            gameManagerAirboneDanger.UpdateScore(50);
+            gameManagerAirboneDanger.UpdateScore(5);
             
             Destroy(other.gameObject);
             Instantiate(getGasolinaParticle, gameObject.transform.position, getGasolinaParticle.transform.rotation);
@@ -100,7 +100,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (other.CompareTag("Enemigo"))
         {
-            gameManagerAirboneDanger.UpdateScore(-25);
+            gameManagerAirboneDanger.UpdateScore(-10);
             gameManagerAirboneDanger.UpdateEscudo(1);        
            
             Destroy(other.gameObject);
