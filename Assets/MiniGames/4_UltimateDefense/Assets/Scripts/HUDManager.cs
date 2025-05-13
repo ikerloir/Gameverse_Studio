@@ -69,10 +69,19 @@ public class HUDManager : MonoBehaviour
             damageReceivedText.gameObject.SetActive(false);
     }
 
-    public void AddShot(bool acertado)
+    public void RegisterProjectileFired()
     {
         totalDisparos++;
+    }
+
+    public void AddShot(bool acertado)
+    {
         if (acertado) disparosAcertados++;
+    }
+
+    public void AddDamageDealt(float amount)
+    {
+        dañoTotalInfligido += amount;
     }
 
     public void AddKill(float dañoInfligido)

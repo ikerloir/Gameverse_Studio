@@ -8,6 +8,7 @@ public class Projectile : MonoBehaviour
     public GameObject impactEffectPrefab;
 
     private Vector3 direction;
+    private bool hasHit = false;
 
     public void SetDirection(Vector3 dir)
     {
@@ -26,8 +27,8 @@ public class Projectile : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (!string.IsNullOrEmpty(targetTag) && !other.CompareTag(targetTag))
-            return;
+        if (hasHit) return;
+        if (!string.IsNullOrEmpty(targetTag) && !other.CompareTag(targetTag)) return;
 
         bool acertado = false;
 
@@ -37,7 +38,9 @@ public class Projectile : MonoBehaviour
             acertado = true;
         }
 
-        var hud = FindFirstObjectByType<HUDManager>();
+        hasHit = true;
+
+        var hud = GameObject.FindFirstObjectByType<HUDManager>();
         if (hud != null)
         {
             hud.AddShot(acertado);

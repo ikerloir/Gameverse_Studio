@@ -10,6 +10,7 @@ public class WeaponShooter : MonoBehaviour
     public float fireRate = 0.3f;
 
     private float nextFireTime = 0f;
+    private bool useFirstMuzzle = true; // Alternar cañones
 
     void Update()
     {
@@ -25,8 +26,12 @@ public class WeaponShooter : MonoBehaviour
         {
             nextFireTime = Time.time + fireRate;
 
-            ShootFromMuzzle(muzzle1);
-            ShootFromMuzzle(muzzle2);
+            if (useFirstMuzzle)
+                ShootFromMuzzle(muzzle1);
+            else
+                ShootFromMuzzle(muzzle2);
+
+            useFirstMuzzle = !useFirstMuzzle;
         }
     }
 
@@ -46,6 +51,12 @@ public class WeaponShooter : MonoBehaviour
         if (rb != null)
         {
             rb.linearVelocity = muzzle.forward * bulletSpeed;
+        }
+
+        var hud = FindFirstObjectByType<HUDManager>();
+        if (hud != null)
+        {
+            hud.RegisterProjectileFired();
         }
 
         Destroy(bullet, 5f);
