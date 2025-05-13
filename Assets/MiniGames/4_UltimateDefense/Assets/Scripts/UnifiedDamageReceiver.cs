@@ -59,9 +59,12 @@ public class UnifiedDamageReceiver : MonoBehaviour, IDamageable
         if (lifeHUD != null)
             lifeHUD.UpdateLife((int)currentHealth);
 
-        var hud = FindObjectOfType<HUDManager>();
-        hud?.UpdateHealth((int)currentHealth);
-        hud?.ShowDamageReceived(amount);
+        HUDManager hud = FindFirstObjectByType<HUDManager>();
+        if (hud != null)
+        {
+            hud.UpdatePlayerHealth(currentHealth, maxHealth);
+            hud.ShowDamageReceived(amount);
+        }
 
         if (currentHealth <= 0f)
             Die();

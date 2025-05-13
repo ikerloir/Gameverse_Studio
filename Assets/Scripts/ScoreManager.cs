@@ -23,7 +23,7 @@ public class ScoreManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        gameScores = new int[3];
+        gameScores = new int[4];
     }
 
     public void SetScore(int gameIndex, int score)

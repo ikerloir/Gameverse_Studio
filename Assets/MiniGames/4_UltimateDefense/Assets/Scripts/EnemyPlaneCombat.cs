@@ -7,7 +7,7 @@ public class EnemyPlaneCombat : MonoBehaviour, IDamageable
     private float currentHealth;
 
     [Header("Attack Settings")]
-    public float baseDamage = 1f;
+    public float baseDamage = 10f;
     public float fireCooldown = 1f;
     private float fireTimer = 0f;
 
@@ -18,20 +18,18 @@ public class EnemyPlaneCombat : MonoBehaviour, IDamageable
 
     [Header("Projectile Settings")]
     public GameObject projectilePrefab;
-    public int numberOfCannons = 4;
     public Transform[] firePoints;
 
     [Header("Attack Target")]
     public Transform attackTarget;
+
+    [Header("Effects")]
     public GameObject floatingTextPrefab;
+    public GameObject explosionPrefab;
+    public AudioClip explosionSound;
+    public float explosionSoundVolume = 1f;
 
-    [Header("Enemy Spawn")]
-    [SerializeField] private GameObject enemyPrefab;
-    public static int totalKills = 0;
-
-    private HealthBar healthBarInstance;
-
-    void Start()
+    private void Start()
     {
         currentHealth = maxHealth;
 
@@ -40,15 +38,9 @@ public class EnemyPlaneCombat : MonoBehaviour, IDamageable
             var player = GameObject.FindGameObjectWithTag("Player");
             if (player != null) attackTarget = player.transform;
         }
-
-        var hbGO = new GameObject("HealthBar");
-        hbGO.transform.position = transform.position + Vector3.up * 2f;
-        healthBarInstance = hbGO.AddComponent<HealthBar>();
-        healthBarInstance.SetTarget(this.transform);
-        healthBarInstance.SetHealth(currentHealth, maxHealth);
     }
 
-    void Update()
+    private void Update()
     {
         if (attackTarget == null) return;
 
@@ -61,16 +53,15 @@ public class EnemyPlaneCombat : MonoBehaviour, IDamageable
         }
     }
 
-    void TryAttack()
+    private void TryAttack()
     {
         float distance = Vector3.Distance(transform.position, attackTarget.position);
         float accuracy = Mathf.Lerp(maxAccuracy, minAccuracy, distance / maxEffectiveRange);
         accuracy = Mathf.Clamp01(accuracy);
         bool hit = Random.value <= accuracy;
 
-        for (int i = 0; i < numberOfCannons && i < firePoints.Length; i++)
+        foreach (Transform fp in firePoints)
         {
-            Transform fp = firePoints[i];
             if (fp == null || projectilePrefab == null) continue;
 
             Vector3 toTarget = (attackTarget.position - fp.position).normalized;
@@ -84,70 +75,41 @@ public class EnemyPlaneCombat : MonoBehaviour, IDamageable
                 p.targetTag = "Player";
             }
 
-            Debug.Log($"🟡 [EnemyPlaneCombat] Cañón {i + 1} disparó a {attackTarget.name} (Hit: {hit})");
+            Debug.Log($"🟡 [EnemyPlaneCombat] Cañón disparó a {attackTarget.name} (Hit: {hit})");
         }
     }
 
     public void TakeDamage(float amount, GameObject source)
     {
-        Debug.Log($"🔻 [DAMAGE] {gameObject.name} recibió {amount} daño de {source?.name}");
         currentHealth = Mathf.Clamp(currentHealth - amount, 0f, maxHealth);
-        Debug.Log($"❤️ [HP] Vida restante de {gameObject.name}: {currentHealth}");
 
         DamageEffects.ShowFloatingText(floatingTextPrefab, transform.position, amount);
 
-        if (healthBarInstance != null)
-            healthBarInstance.SetHealth(currentHealth, maxHealth);
-
         if (currentHealth <= 0f)
         {
-            totalKills++;
-            FindObjectOfType<HUDManager>()?.AddKill();
-            SpawnNewEnemy();
+            var hud = FindFirstObjectByType<HUDManager>();
+            if (hud != null)
+            {
+                hud.AddKill(maxHealth);
+            }
             Die();
         }
     }
 
-    private void SpawnNewEnemy()
-    {
-        if (enemyPrefab == null)
-        {
-            Debug.LogWarning("❗ No se asignó el prefab del enemigo.");
-            return;
-        }
-
-        Vector3 spawnPos = new Vector3(
-            Random.Range(-10f, 10f),
-            transform.position.y,
-            Random.Range(15f, 25f)
-        );
-
-        GameObject newEnemy = Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
-
-        float nuevaVida = 100f + totalKills * 10f;
-        float nuevoDaño = 1f + totalKills * 0.25f;
-
-        if (newEnemy.TryGetComponent(out EnemyPlaneCombat comp))
-        {
-            comp.maxHealth = nuevaVida;
-            comp.baseDamage = nuevoDaño;
-        }
-
-        if (newEnemy.TryGetComponent(out UnifiedDamageReceiver hp))
-        {
-            var field = hp.GetType().GetField("maxHealth");
-            if (field != null) field.SetValue(hp, nuevaVida);
-        }
-
-        Debug.Log($"🛫 [Spawn] Enemigo creado: Vida = {nuevaVida}, Daño = {nuevoDaño}, Total kills = {totalKills}");
-    }
-
-    void Die()
+    private void Die()
     {
         Debug.Log("💥 [EnemyPlaneCombat] Avión destruido");
 
-        if (healthBarInstance != null)
-            Destroy(healthBarInstance.gameObject);
+        if (explosionPrefab != null)
+        {
+            GameObject explosion = Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+            Destroy(explosion, 5f);
+        }
+
+        if (explosionSound != null)
+        {
+            AudioSource.PlayClipAtPoint(explosionSound, transform.position, explosionSoundVolume);
+        }
 
         Destroy(gameObject);
     }

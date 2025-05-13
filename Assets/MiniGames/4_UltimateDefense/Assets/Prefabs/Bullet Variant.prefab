@@ -9,6 +9,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1008603542665579810, guid: 9ad4d604b649ff6458999e4984f24ebf, type: 3}
+      propertyPath: targetTag
+      value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 1008603542665579810, guid: 9ad4d604b649ff6458999e4984f24ebf, type: 3}
       propertyPath: impactEffectPrefab
       value: 
       objectReference: {fileID: 2440941215763800237, guid: 1d38a469ef85264498a341c449384ac9, type: 3}

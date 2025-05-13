@@ -1,80 +1,142 @@
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
+using System.Collections;
 
 public class HUDManager : MonoBehaviour
 {
-    [Header("Referencias de Texto")]
-    public TextMeshProUGUI healthText;
-    public TextMeshProUGUI damageReceivedText;
-    public TextMeshProUGUI killsText;
+    [Header("Referencias UI")]
+    [SerializeField] private TextMeshProUGUI killsText;
+    [SerializeField] private TextMeshProUGUI healthText;
+    [SerializeField] private TextMeshProUGUI damageReceivedText;
+    [SerializeField] private TextMeshProUGUI resultadoTexto;
+    [SerializeField] private GameObject victoriaText;
+    [SerializeField] private GameObject gameOverText;
+    [SerializeField] private GameObject panelResultados;
+
+    [Header("Audios")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip sonidoVictoria;
+    [SerializeField] private AudioClip sonidoGameOver;
+    [SerializeField] private AudioClip sonidoResultados;
+
+    [Header("Configuración")]
+    [SerializeField] private int killsParaVictoria = 5;
 
     private int currentKills = 0;
-    private Vector3 originalDamageTextPosition;
-    private Color originalDamageTextColor;
-    private float fadeDuration = 1.5f;
-    private float fadeTimer;
+    private int totalDisparos = 0;
+    private int disparosAcertados = 0;
+    private float dañoTotalRecibido = 0f;
+    private float dañoTotalInfligido = 0f;
 
-    void Start()
+    private bool gameEnded = false;
+
+    private void Start()
     {
-        if (damageReceivedText != null)
-        {
-            originalDamageTextPosition = damageReceivedText.rectTransform.localPosition;
-            originalDamageTextColor = damageReceivedText.color;
-            damageReceivedText.gameObject.SetActive(false);
-        }
+        victoriaText.SetActive(false);
+        gameOverText.SetActive(false);
+        panelResultados.SetActive(false);
+
+        UpdateKillsDisplay();
     }
 
-    public void UpdateHealth(int value)
+    public void UpdatePlayerHealth(float current, float max)
     {
         if (healthText != null)
-            healthText.text = "" + value.ToString();
+            healthText.text = $"{current:F0} / {max:F0}";
+
+        if (current <= 0 && !gameEnded)
+        {
+            StartCoroutine(GameOverSequence());
+        }
     }
 
     public void ShowDamageReceived(float damage)
     {
+        dañoTotalRecibido += damage;
+
         if (damageReceivedText != null)
         {
             damageReceivedText.text = "-" + damage.ToString("F0");
-            damageReceivedText.rectTransform.localPosition = originalDamageTextPosition;
-            damageReceivedText.color = originalDamageTextColor;
             damageReceivedText.gameObject.SetActive(true);
-            fadeTimer = fadeDuration;
-
             CancelInvoke(nameof(HideDamageText));
-            CancelInvoke(nameof(AnimateDamageText));
-            InvokeRepeating(nameof(AnimateDamageText), 0f, 0.016f);
-            Invoke(nameof(HideDamageText), fadeDuration);
-        }
-    }
-
-    private void AnimateDamageText()
-    {
-        if (damageReceivedText != null)
-        {
-            damageReceivedText.rectTransform.localPosition += new Vector3(0, 0.5f, 0);
-            fadeTimer -= 0.016f;
-            float alpha = Mathf.Clamp01(fadeTimer / fadeDuration);
-            Color color = damageReceivedText.color;
-            color.a = alpha;
-            damageReceivedText.color = color;
+            Invoke(nameof(HideDamageText), 1.5f);
         }
     }
 
     private void HideDamageText()
     {
         if (damageReceivedText != null)
-        {
-            CancelInvoke(nameof(AnimateDamageText));
             damageReceivedText.gameObject.SetActive(false);
-            damageReceivedText.rectTransform.localPosition = originalDamageTextPosition;
-            damageReceivedText.color = originalDamageTextColor;
+    }
+
+    public void AddShot(bool acertado)
+    {
+        totalDisparos++;
+        if (acertado) disparosAcertados++;
+    }
+
+    public void AddKill(float dañoInfligido)
+    {
+        currentKills++;
+        dañoTotalInfligido += dañoInfligido;
+        UpdateKillsDisplay();
+
+        if (currentKills >= killsParaVictoria && !gameEnded)
+        {
+            StartCoroutine(VictoriaSequence());
         }
     }
 
-    public void AddKill()
+    private void UpdateKillsDisplay()
     {
-        currentKills++;
         if (killsText != null)
-            killsText.text = "" + currentKills.ToString();
+            killsText.text = currentKills.ToString();
+    }
+
+    private IEnumerator GameOverSequence()
+    {
+        gameEnded = true;
+        gameOverText.SetActive(true);
+        audioSource.PlayOneShot(sonidoGameOver);
+        yield return new WaitForSeconds(2f);
+        gameOverText.SetActive(false);
+        MostrarResultados();
+    }
+
+    private IEnumerator VictoriaSequence()
+    {
+        gameEnded = true;
+        victoriaText.SetActive(true);
+        audioSource.PlayOneShot(sonidoVictoria);
+        yield return new WaitForSeconds(2f);
+        victoriaText.SetActive(false);
+        MostrarResultados();
+    }
+
+    private void MostrarResultados()
+    {
+        panelResultados.SetActive(true);
+        audioSource.PlayOneShot(sonidoResultados);
+
+        float ratioAcierto = totalDisparos > 0 ? (float)disparosAcertados / totalDisparos : 0f;
+        string valoracion = CalcularValoracion(ratioAcierto);
+
+        resultadoTexto.text =
+            $"Disparos: {totalDisparos}\n" +
+            $"Aciertos: {disparosAcertados} ({(ratioAcierto * 100f):F1}%)\n" +
+            $"Daño recibido: {dañoTotalRecibido:F1}\n" +
+            $"Daño infligido: {dañoTotalInfligido:F1}\n" +
+            $"Enemigos derrotados: {currentKills}\n" +
+            $"Valoración: {valoracion}";
+    }
+
+    private string CalcularValoracion(float ratioAcierto)
+    {
+        float score = (ratioAcierto * 100f) + dañoTotalInfligido - dañoTotalRecibido + (currentKills * 10f);
+        if (score > 200) return "S";
+        if (score > 150) return "A";
+        if (score > 100) return "B";
+        if (score > 50) return "C";
+        return "D";
     }
 }
