@@ -10,7 +10,7 @@ public class WeaponShooter : MonoBehaviour
     public float fireRate = 0.3f;
 
     private float nextFireTime = 0f;
-    private bool useFirstMuzzle = true; // Alternar cañones
+    private bool useFirstMuzzle = true; // Alternar caï¿½ones
 
     void Update()
     {

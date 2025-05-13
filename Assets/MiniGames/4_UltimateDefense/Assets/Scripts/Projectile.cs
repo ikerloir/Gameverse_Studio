@@ -48,7 +48,8 @@ public class Projectile : MonoBehaviour
 
         if (impactEffectPrefab != null)
         {
-            var fx = Instantiate(impactEffectPrefab, transform.position, Quaternion.identity);
+            Vector3 hitPos = other.ClosestPoint(transform.position);
+            var fx = Instantiate(impactEffectPrefab, hitPos, Quaternion.LookRotation(-direction));
             Destroy(fx, 2f);
         }
 
