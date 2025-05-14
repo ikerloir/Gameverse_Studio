@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(Collider))]
 public class UnifiedDamageReceiver : MonoBehaviour, IDamageable
@@ -21,6 +22,10 @@ public class UnifiedDamageReceiver : MonoBehaviour, IDamageable
 
     private bool isInvulnerable = true;
     private float invulnerabilityTime = 5f;
+
+    // NUEVO: Registro de fuentes recientes de daño
+    private Dictionary<GameObject, float> recentSources = new Dictionary<GameObject, float>();
+    private float sourceCooldown = 0.1f; // Tiempo en segundos que una fuente puede volver a sonar
 
     void Start()
     {
@@ -56,7 +61,13 @@ public class UnifiedDamageReceiver : MonoBehaviour, IDamageable
         Vector3 spawnPos = (floatingTextSpawnPoint != null) ? floatingTextSpawnPoint.position : transform.position;
         DamageEffects.ShowFloatingText(floatingTextPrefab, spawnPos, amount);
         DamageEffects.ShakeCamera(cameraShake);
-        DamageEffects.PlaySound(audioSource, hitSound);
+
+        // NUEVO: Solo sonar si la fuente no ha impactado en el último corto tiempo
+        if (!recentSources.ContainsKey(source) || Time.time - recentSources[source] > sourceCooldown)
+        {
+            DamageEffects.PlaySound(audioSource, hitSound);
+            recentSources[source] = Time.time;
+        }
 
         if (lifeHUD != null)
             lifeHUD.UpdateLife((int)currentHealth);
@@ -78,7 +89,6 @@ public class UnifiedDamageReceiver : MonoBehaviour, IDamageable
 
         GameObject explosion = new GameObject("AirplaneExplosion");
         explosion.transform.position = transform.position;
-        // Sonido 2D garantizado
         if (explosionSound != null)
         {
             GameObject audioObj = new GameObject("ExplosionSound");
@@ -86,14 +96,15 @@ public class UnifiedDamageReceiver : MonoBehaviour, IDamageable
             var source = audioObj.AddComponent<AudioSource>();
             source.clip = explosionSound;
             source.volume = explosionSoundVolume;
-            source.spatialBlend = 0f; // Forzar 2D
+            source.spatialBlend = 0f;
             source.Play();
             Destroy(audioObj, explosionSound.length);
         }
 
-        // Fuego
+        // Configuración de Partículas (sin cambios)
+
         ParticleSystem firePS = explosion.AddComponent<ParticleSystem>();
-        firePS.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear); // DETENER antes de configurar
+        firePS.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         var main = firePS.main;
         main.duration = 2.0f;
         main.startLifetime = new ParticleSystem.MinMaxCurve(1.0f, 2.5f);
@@ -160,15 +171,11 @@ public class UnifiedDamageReceiver : MonoBehaviour, IDamageable
 
         firePS.Play();
 
-        // (Resto de humo, chispas y luz repetir misma lógica de Stop() antes de configurar y usar SetBursts correctamente)
-
-        // Sonido
         if (explosionSound != null)
         {
             AudioSource.PlayClipAtPoint(explosionSound, transform.position, explosionSoundVolume);
         }
 
-        // Shake cámara
         DamageEffects.ShakeCamera(cameraShake);
 
         Destroy(explosion, 7f);

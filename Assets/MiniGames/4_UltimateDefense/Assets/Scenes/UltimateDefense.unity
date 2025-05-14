@@ -122848,7 +122848,7 @@ MonoBehaviour:
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
   m_Cameras: []
-  m_RendererIndex: 0
+  m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
     m_Bits: 1
@@ -133904,7 +133904,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcff315f1747a624bbf1f0abf03ecb48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 10000
+  maxHealth: 100
   floatingTextPrefab: {fileID: 0}
   floatingTextSpawnPoint: {fileID: 0}
   hitSound: {fileID: 8300000, guid: 803d71012828ac9419be16452a8fb3a7, type: 3}
@@ -151762,7 +151762,7 @@ MonoBehaviour:
   - {fileID: 4284497934024161624}
   - {fileID: 1993800727669190980}
   - {fileID: 2376773336317664868}
-  fireRate: 0.9
+  fireRate: 0.5
 --- !u!33 &6982169836311045452
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -152967,7 +152967,7 @@ MonoBehaviour:
   maxHealth: 1
   floatingTextPrefab: {fileID: 283844589}
   floatingTextSpawnPoint: {fileID: 3284422697672811549}
-  hitSound: {fileID: 8300000, guid: 803d71012828ac9419be16452a8fb3a7, type: 3}
+  hitSound: {fileID: 8300000, guid: 4bc21899eae7448ccaf4ebdd49cfcd9f, type: 3}
   explosionSound: {fileID: 8300000, guid: 8088958e4125f5648b2892f3eb7c40a3, type: 3}
   explosionSoundVolume: 1
   audioSource: {fileID: 1694817437}
