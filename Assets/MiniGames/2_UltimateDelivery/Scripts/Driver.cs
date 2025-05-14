@@ -7,10 +7,26 @@ public class Driver : MonoBehaviour
     [SerializeField] float carSpeed = 15f;
     [SerializeField] float slowSpeed = 10f;
     [SerializeField] float boostSpeed = 20f;
+    [SerializeField] Color32 hasPackageColor = new Color32(255, 94, 222, 255);
+    [SerializeField] Color32 noPackageColor = new Color32(0, 255, 254, 255);
 
     // Variables to track button states
     private float horizontalInput = 0f;
     private float verticalInput = 0f;
+    private bool hasPackage = false;
+    private SpriteRenderer spriteRenderer;
+    private DeliveryPointManager deliveryPointManager;
+    private PackageSpawner packageSpawner;
+    private DeliveryScoreManager scoreManager;
+
+    private void Start()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.color = noPackageColor;
+        deliveryPointManager = FindObjectOfType<DeliveryPointManager>();
+        packageSpawner = FindObjectOfType<PackageSpawner>();
+        scoreManager = FindObjectOfType<DeliveryScoreManager>();
+    }
 
     void Update()
     {
@@ -47,9 +63,31 @@ public class Driver : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Booster")
+        if (other.CompareTag("Booster"))
         {
             carSpeed = boostSpeed;
+        }
+        else if (other.CompareTag("Package") && !hasPackage)
+        {
+            Debug.Log("Package picked up");
+            hasPackage = true;
+            spriteRenderer.color = hasPackageColor;
+            other.gameObject.SetActive(false);
+            packageSpawner.PackagePickedUp();
+            // Activate a random delivery point when package is picked up
+            deliveryPointManager.ActivateRandomDeliveryPoint();
+        }
+        else if (other.CompareTag("Customer") && hasPackage)
+        {
+            Debug.Log("Package delivered");
+            hasPackage = false;
+            spriteRenderer.color = noPackageColor;
+            // Deactivate the current delivery point
+            deliveryPointManager.DeactivateCurrentPoint();
+            // Spawn a new package
+            packageSpawner.SpawnPackage();
+            // Add a point to the score
+            scoreManager.AddPoint();
         }
     }
 }
