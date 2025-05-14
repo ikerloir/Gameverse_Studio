@@ -40,10 +40,14 @@ public class Projectile : MonoBehaviour
 
         hasHit = true;
 
-        var hud = GameObject.FindFirstObjectByType<HUDManager>();
-        if (hud != null)
+        // Solo si la bala es contra 'Enemy', asumimos que es del Player y actualizamos el HUD
+        if (targetTag == "Enemy")
         {
-            hud.AddShot(acertado);
+            var hud = GameObject.FindFirstObjectByType<HUDManager>();
+            if (hud != null)
+            {
+                hud.AddShot(acertado);
+            }
         }
 
         if (impactEffectPrefab != null)
