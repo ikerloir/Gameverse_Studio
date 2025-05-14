@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1008603542665579810, guid: 9ad4d604b649ff6458999e4984f24ebf, type: 3}
       propertyPath: targetTag
-      value: Player
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 1008603542665579810, guid: 9ad4d604b649ff6458999e4984f24ebf, type: 3}
       propertyPath: impactEffectPrefab
@@ -18,7 +18,7 @@ PrefabInstance:
       objectReference: {fileID: 2440941215763800237, guid: 1d38a469ef85264498a341c449384ac9, type: 3}
     - target: {fileID: 1534213068600434478, guid: 9ad4d604b649ff6458999e4984f24ebf, type: 3}
       propertyPath: m_Name
-      value: Bullet Variant
+      value: Bullet Variant 1
       objectReference: {fileID: 0}
     - target: {fileID: 1585286764402218452, guid: 9ad4d604b649ff6458999e4984f24ebf, type: 3}
       propertyPath: m_LocalScale.x
