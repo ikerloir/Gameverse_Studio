@@ -6,7 +6,7 @@ public class Driver : MonoBehaviour
     [SerializeField] float steerSpeed = 100f;
     [SerializeField] float carSpeed = 15f;
     [SerializeField] float slowSpeed = 10f;
-    [SerializeField] float boostSpeed = 18f;
+    [SerializeField] float boostSpeed = 20f;
     [SerializeField] Color32 hasPackageColor = new Color32(255, 94, 222, 255);
     [SerializeField] Color32 noPackageColor = new Color32(0, 255, 254, 255);
 
@@ -17,6 +17,7 @@ public class Driver : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private DeliveryPointManager deliveryPointManager;
     private PackageSpawner packageSpawner;
+    private DeliveryScoreManager scoreManager;
 
     private void Start()
     {
@@ -24,6 +25,7 @@ public class Driver : MonoBehaviour
         spriteRenderer.color = noPackageColor;
         deliveryPointManager = FindObjectOfType<DeliveryPointManager>();
         packageSpawner = FindObjectOfType<PackageSpawner>();
+        scoreManager = FindObjectOfType<DeliveryScoreManager>();
     }
 
     void Update()
@@ -84,6 +86,8 @@ public class Driver : MonoBehaviour
             deliveryPointManager.DeactivateCurrentPoint();
             // Spawn a new package
             packageSpawner.SpawnPackage();
+            // Add a point to the score
+            scoreManager.AddPoint();
         }
     }
 }
