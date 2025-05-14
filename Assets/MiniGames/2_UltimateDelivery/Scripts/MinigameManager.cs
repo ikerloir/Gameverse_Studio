@@ -115,7 +115,21 @@ public class MinigameManager : MonoBehaviour
 
     public void ReturnToMainGame()
     {
-        // Connect to the "Back" button in the main game.        
+        // Cambia la música al menú principal (opcional)
+        if (MusicManager.Instance != null)
+        {
+            MusicManager.Instance.PlayMusic(MusicManager.Instance.menuMusic, true);
+        }
+        // Carga la escena del menú principal usando GameManager
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.ButtonLoadScene(GameManager.GameScenes.Menu);
+        }
+        else
+        {
+            // Fallback directo si GameManager no está disponible
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
+        }
     }
 
     public void ResetMinigame()
