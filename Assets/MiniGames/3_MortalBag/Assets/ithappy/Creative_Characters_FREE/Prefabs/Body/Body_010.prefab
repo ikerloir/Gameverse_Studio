@@ -130,6 +130,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Body_010
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 335f64e53b1ba9648aec09bc1a394a09, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5866666021909216657, guid: 335f64e53b1ba9648aec09bc1a394a09, type: 3}
     m_RemovedGameObjects: []
@@ -239,6 +243,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49cb005fa73c7604094bbeacad3ea7cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  points: 10
 --- !u!4 &667049195000124176 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 335f64e53b1ba9648aec09bc1a394a09, type: 3}

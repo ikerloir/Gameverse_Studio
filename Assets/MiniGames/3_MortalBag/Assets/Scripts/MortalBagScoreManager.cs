@@ -1,35 +1,65 @@
-using TMPro;
 using UnityEngine;
+using TMPro;
 
 public class MortalBagScoreManager : MonoBehaviour
 {
     public static MortalBagScoreManager Instance;
-
-    public int score = 0;
     public TextMeshProUGUI scoreText;
+    private int score = 0;
 
     void Awake()
     {
-        // Singleton para acceder desde cualquier otro script
+        Debug.Log("MortalBagScoreManager Awake");
+        // Singleton pattern
         if (Instance == null)
+        {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
+            Debug.Log("MortalBagScoreManager inicializado como singleton");
+        }
         else
+        {
+            Debug.Log("Ya existe una instancia de MortalBagScoreManager, destruyendo duplicado");
             Destroy(gameObject);
+        }
     }
 
     void Start()
     {
-        UpdateScoreText();
+        Debug.Log("MortalBagScoreManager Start");
+        if (scoreText == null)
+        {
+            Debug.LogError("¡Error! El TextMeshProUGUI no está asignado en el MortalBagScoreManager");
+        }
+        else
+        {
+            Debug.Log("TextMeshProUGUI asignado correctamente");
+        }
+        UpdateScoreDisplay();
     }
 
-    public void AddScore(int amount)
+    public void AddScore(int points)
     {
-        score += amount;
-        UpdateScoreText();
+        Debug.Log($"AddScore llamado con {points} puntos");
+        score += points;
+        UpdateScoreDisplay();
     }
 
-    void UpdateScoreText()
+    private void UpdateScoreDisplay()
     {
-        scoreText.text = "Score: " + score;
+        if (scoreText != null)
+        {
+            scoreText.text = "Score: " + score;
+            Debug.Log($"Score actualizado a: {score}");
+        }
+        else
+        {
+            Debug.LogError("No se puede actualizar el texto porque scoreText es null");
+        }
+    }
+
+    public int GetScore()
+    {
+        return score;
     }
 }

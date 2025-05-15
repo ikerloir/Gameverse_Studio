@@ -11,9 +11,11 @@ GameObject:
   - component: {fileID: 521714865075394505}
   - component: {fileID: 2080427469311397709}
   - component: {fileID: 3068311691713375742}
+  - component: {fileID: -7940886287706766477}
   - component: {fileID: 8733683219966218705}
   - component: {fileID: 2184663298784742043}
   - component: {fileID: 252389750019614989}
+  - component: {fileID: -3860288297329265259}
   m_Layer: 0
   m_Name: bag2
   m_TagString: bags
@@ -89,7 +91,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &8733683219966218705
+--- !u!65 &-7940886287706766477
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -105,6 +107,27 @@ BoxCollider:
     m_Bits: 0
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &8733683219966218705
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7954629892024468134}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -150,3 +173,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   yLimit: -2
+--- !u!114 &-3860288297329265259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7954629892024468134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63f716ec9e26fef4eb5197fea70bbcf6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  points: 1
+  damage: 1
