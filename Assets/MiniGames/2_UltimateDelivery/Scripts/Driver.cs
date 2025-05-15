@@ -23,9 +23,9 @@ public class Driver : MonoBehaviour
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.color = noPackageColor;
-        deliveryPointManager = FindObjectOfType<DeliveryPointManager>();
-        packageSpawner = FindObjectOfType<PackageSpawner>();
-        scoreManager = FindObjectOfType<DeliveryScoreManager>();
+        deliveryPointManager = FindFirstObjectByType<DeliveryPointManager>();
+        packageSpawner = FindFirstObjectByType<PackageSpawner>();
+        scoreManager = FindFirstObjectByType<DeliveryScoreManager>();
     }
 
     void Update()

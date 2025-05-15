@@ -62,4 +62,20 @@ public class MortalBagScoreManager : MonoBehaviour
     {
         return score;
     }
+
+    public void PassScoreToGeneralManager()
+    {
+        if (ScoreManager.Instance != null)
+        {
+            int scaledScore = score * 3; // Multiplicar por 3 para hacer el juego más difícil
+            scaledScore = Mathf.Min(scaledScore, 100); // Limitar a 100
+            // Índice 2 para Mortal Bag (tercer juego en el orden)
+            ScoreManager.Instance.SetScore(2, scaledScore);
+            Debug.Log($"Mortal Bag: Score local: {score}, Score escalado (x3): {scaledScore}");
+        }
+        else
+        {
+            Debug.LogError("ScoreManager.Instance is null! Make sure ScoreManager is in a DontDestroyOnLoad scene.");
+        }
+    }
 }

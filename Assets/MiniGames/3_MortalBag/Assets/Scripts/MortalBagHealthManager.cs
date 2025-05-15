@@ -78,8 +78,31 @@ public class MortalBagHealthManager : MonoBehaviour
 
     private void GameOver()
     {
-        Debug.Log("Game Over!");
-        // Aquí puedes añadir la lógica para el game over
+        Debug.Log("Game Over - No quedan vidas!");
+
+        // Pasar la puntuación al ScoreManager general
+        if (MortalBagScoreManager.Instance != null)
+        {
+            MortalBagScoreManager.Instance.PassScoreToGeneralManager();
+        }
+        else
+        {
+            Debug.LogError("MortalBagScoreManager.Instance es null!");
+        }
+
+        // Detener el juego
+        Time.timeScale = 0f;
+
+        // Buscar el MinigameManager para finalizar el juego
+        MinigameManager minigameManager = FindFirstObjectByType<MinigameManager>();
+        if (minigameManager != null)
+        {
+            minigameManager.GameOver();
+        }
+        else
+        {
+            Debug.LogError("No se encontró el MinigameManager!");
+        }
     }
 
     public int GetCurrentLives()

@@ -10620,6 +10620,7 @@ MonoBehaviour:
   goldMedalSprite: {fileID: 21300000, guid: 93832c16d5d87fa4e8f17d0801f2be3f, type: 3}
   doubleGoldMedalSprite: {fileID: 21300000, guid: 7a22a35189125fb49a6e2ba6a0a85692, type: 3}
   tripleGoldMedalSprite: {fileID: 21300000, guid: 6423c4a0c3d5a2b43852ca8f2a5cb205, type: 3}
+  scoreManager: {fileID: 1067033100}
 --- !u!4 &720145175
 Transform:
   m_ObjectHideFlags: 0
@@ -31589,13 +31590,15 @@ MonoBehaviour:
   gameTime: 180
   timerText: {fileID: 123382200}
   healthBar: {fileID: 1115818703}
+  scoreManager: {fileID: 1067033100}
+  outroManager: {fileID: 720145174}
   medalImage: {fileID: 1232969478}
   resultText: {fileID: 1572197272}
   bronzeMedal: {fileID: 21300000, guid: aed26408407041c4785ec91e85dbfde9, type: 3}
   silverMedal: {fileID: 21300000, guid: 80901c99c3b603f47a2051b88b682943, type: 3}
   goldMedal: {fileID: 21300000, guid: 273e35b4baf6c3546b05b883f36cad9e, type: 3}
-  doubleGoldMedal: {fileID: 0}
-  tripleGoldMedal: {fileID: 0}
+  doubleGoldMedal: {fileID: 21300000, guid: 7a22a35189125fb49a6e2ba6a0a85692, type: 3}
+  tripleGoldMedal: {fileID: 21300000, guid: 6423c4a0c3d5a2b43852ca8f2a5cb205, type: 3}
 --- !u!4 &1952312245
 Transform:
   m_ObjectHideFlags: 0

@@ -44,6 +44,20 @@ public class DeliveryScoreManager : MonoBehaviour
         return score;
     }
 
+    public void PassScoreToGeneralManager()
+    {
+        if (ScoreManager.Instance != null)
+        {
+            int scaledScore = score * 10; // Convertir a escala 0-100
+            ScoreManager.Instance.SetScore(1, scaledScore); // Índice 1 para Ultimate Delivery
+            Debug.Log($"Passing scaled score to general manager: {scaledScore}");
+        }
+        else
+        {
+            Debug.LogError("ScoreManager.Instance is null! Make sure ScoreManager is in a DontDestroyOnLoad scene.");
+        }
+    }
+
     public string GetMedalType()
     {
         string medalType;

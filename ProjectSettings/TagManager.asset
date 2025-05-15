@@ -15,6 +15,7 @@ TagManager:
   - FxTemporaire
   - Jugador
   - bags
+  - Ground
   layers:
   - Default
   - TransparentFX

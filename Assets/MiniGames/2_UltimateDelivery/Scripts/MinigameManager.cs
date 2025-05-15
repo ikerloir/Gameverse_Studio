@@ -12,6 +12,8 @@ public class MinigameManager : MonoBehaviour
     [SerializeField] private float gameTime = 180f; // 3 minutes in seconds
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private HealthBarSlider healthBar;
+    [SerializeField] private DeliveryScoreManager scoreManager;
+    [SerializeField] private OutroManager outroManager;
 
     [Header("Outro Canvas Elements")]
     [SerializeField] private Image medalImage;
@@ -24,8 +26,6 @@ public class MinigameManager : MonoBehaviour
 
     private float currentTime;
     private bool isGameActive = false;
-    private DeliveryScoreManager scoreManager;
-    private OutroManager outroManager;
 
     void Start()
     {
@@ -38,8 +38,14 @@ public class MinigameManager : MonoBehaviour
             player.SetActive(false);
         }
 
-        scoreManager = FindObjectOfType<DeliveryScoreManager>();
-        outroManager = FindObjectOfType<OutroManager>();
+        if (scoreManager == null)
+        {
+            Debug.LogError("DeliveryScoreManager reference is missing! Please assign it in the inspector.");
+        }
+        if (outroManager == null)
+        {
+            Debug.LogError("OutroManager reference is missing! Please assign it in the inspector.");
+        }
     }
 
     public void StartMinigame()
@@ -97,7 +103,7 @@ public class MinigameManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("OutroManager not found!");
+            Debug.LogError("OutroManager reference is missing! Please assign it in the inspector.");
         }
 
         // Disable player
@@ -106,10 +112,15 @@ public class MinigameManager : MonoBehaviour
             player.SetActive(false);
         }
 
-        // Log final score
+        // Log final score and pass it to general manager
         if (scoreManager != null)
         {
             Debug.Log($"Game Over! Final Score: {scoreManager.GetScore()}, Medal Type: {scoreManager.GetMedalType()}");
+            scoreManager.PassScoreToGeneralManager();
+        }
+        else
+        {
+            Debug.LogError("DeliveryScoreManager reference is missing! Please assign it in the inspector.");
         }
     }
 

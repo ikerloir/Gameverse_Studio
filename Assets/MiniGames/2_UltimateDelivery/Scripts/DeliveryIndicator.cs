@@ -42,7 +42,8 @@ public class DeliveryIndicator : MonoBehaviour
 
                 // Calculate the angle for rotation
                 float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-                rectTransform.rotation = Quaternion.Euler(0, 0, angle - 90f);
+                Quaternion targetRotation = Quaternion.Euler(0, 0, angle - 90f);
+                rectTransform.rotation = Quaternion.Slerp(rectTransform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
 
                 // Calculate the position on the screen edge
                 float screenWidth = Screen.width;

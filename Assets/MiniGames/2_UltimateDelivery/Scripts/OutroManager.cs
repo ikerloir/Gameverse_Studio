@@ -14,11 +14,16 @@ public class OutroManager : MonoBehaviour
     [SerializeField] private Sprite doubleGoldMedalSprite;
     [SerializeField] private Sprite tripleGoldMedalSprite;
 
-    private DeliveryScoreManager scoreManager;
+    [Header("Manager References")]
+    [SerializeField] private DeliveryScoreManager scoreManager;
 
     private void Start()
     {
-        scoreManager = FindObjectOfType<DeliveryScoreManager>();
+        if (scoreManager == null)
+        {
+            Debug.LogError("DeliveryScoreManager reference is missing! Please assign it in the inspector.");
+        }
+
         if (outroCanvas != null)
         {
             outroCanvas.SetActive(false);

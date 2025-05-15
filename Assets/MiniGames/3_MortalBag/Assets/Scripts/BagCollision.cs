@@ -7,8 +7,6 @@ public class BagCollision : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log($"Colisión detectada con: {other.gameObject.name}, Tag: {other.tag}");
-
         // Si colisiona con el jugador
         if (other.CompareTag("Player"))
         {
@@ -22,21 +20,12 @@ public class BagCollision : MonoBehaviour
         // Si colisiona con el suelo
         else if (other.CompareTag("Ground"))
         {
-            Debug.Log("Maleta caída al suelo - Intentando quitar vida");
+            Debug.Log("Maleta caída al suelo");
             if (MortalBagHealthManager.Instance != null)
             {
-                Debug.Log("HealthManager encontrado, quitando vida");
                 MortalBagHealthManager.Instance.TakeDamage(damage);
             }
-            else
-            {
-                Debug.LogError("MortalBagHealthManager.Instance es null. Asegúrate de que existe en la escena.");
-            }
             Destroy(gameObject);
-        }
-        else
-        {
-            Debug.Log($"Colisión con objeto no reconocido: {other.gameObject.name} con tag {other.tag}");
         }
     }
 }
