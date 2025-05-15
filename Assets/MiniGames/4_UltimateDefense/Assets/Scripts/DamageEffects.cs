@@ -14,7 +14,7 @@ public static class DamageEffects
     {
         if (target.CompareTag("Player"))
         {
-            var flash = GameObject.FindObjectOfType<ScreenDamageFlash>();
+            var flash = GameObject.FindFirstObjectByType<ScreenDamageFlash>();
             flash?.TriggerFlash();
         }
     }

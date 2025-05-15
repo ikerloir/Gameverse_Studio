@@ -4,14 +4,11 @@ public class Projectile : MonoBehaviour
 {
     public float speed = 100f;
     public float damage = 10f;
-    public float lifeTime = 5f;
     public string targetTag = "Enemy";
-
     public GameObject impactEffectPrefab;
-    public AudioClip impactSound;
-    public float impactSoundVolume = 1f;
 
     private Vector3 direction;
+    private bool hasHit = false;
 
     public void SetDirection(Vector3 dir)
     {
@@ -20,38 +17,44 @@ public class Projectile : MonoBehaviour
 
     void Start()
     {
-        Destroy(gameObject, lifeTime);
+        Destroy(gameObject, 5f);
     }
 
     void Update()
     {
-        if (TryGetComponent(out Rigidbody rb) == false)
-        {
-            transform.position += direction * speed * Time.deltaTime;
-        }
+        transform.position += direction * speed * Time.deltaTime;
     }
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log($"[Projectile] Trigger con: {other.name} | Tag: {other.tag}");
+        if (hasHit) return;
+        if (!string.IsNullOrEmpty(targetTag) && !other.CompareTag(targetTag)) return;
 
-        if (!string.IsNullOrEmpty(targetTag) && !other.CompareTag(targetTag))
-            return;
+        bool acertado = false;
 
         if (other.TryGetComponent(out IDamageable damageable))
         {
-            damageable.TakeDamage(damage, this.gameObject);
+            damageable.TakeDamage(damage, gameObject);
+            acertado = true;
+        }
+
+        hasHit = true;
+
+        // Solo si la bala es contra 'Enemy', asumimos que es del Player y actualizamos el HUD
+        if (targetTag == "Enemy")
+        {
+            var hud = GameObject.FindFirstObjectByType<HUDManager>();
+            if (hud != null)
+            {
+                hud.AddShot(acertado);
+            }
         }
 
         if (impactEffectPrefab != null)
         {
-            var fx = Instantiate(impactEffectPrefab, transform.position, Quaternion.identity);
+            Vector3 hitPos = other.ClosestPoint(transform.position);
+            var fx = Instantiate(impactEffectPrefab, hitPos, Quaternion.LookRotation(-direction));
             Destroy(fx, 2f);
-        }
-
-        if (impactSound != null)
-        {
-            AudioSource.PlayClipAtPoint(impactSound, transform.position, impactSoundVolume);
         }
 
         Destroy(gameObject);
