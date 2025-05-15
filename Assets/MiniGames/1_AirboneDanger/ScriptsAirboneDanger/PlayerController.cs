@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
 
     public AudioSource audioSourceGetGasolina;
     public AudioSource audioSourceEnemigo;
+    public AudioSource audioSourceArmaduraBaja;
     public GameManagerAirboneDanger gameManagerAirboneDanger;
     public float speed;
     public FloatingJoystick floatingJoystick;
@@ -91,7 +92,7 @@ public class PlayerController : MonoBehaviour
     {
         if (other.CompareTag("gasolina"))
         {
-            gameManagerAirboneDanger.UpdateScore(50);
+            gameManagerAirboneDanger.UpdateScore(5);
             
             Destroy(other.gameObject);
             Instantiate(getGasolinaParticle, gameObject.transform.position, getGasolinaParticle.transform.rotation);
@@ -99,12 +100,17 @@ public class PlayerController : MonoBehaviour
         }
         else if (other.CompareTag("Enemigo"))
         {
-            gameManagerAirboneDanger.UpdateScore(-25);
+            gameManagerAirboneDanger.UpdateScore(-10);
             gameManagerAirboneDanger.UpdateEscudo(1);        
            
             Destroy(other.gameObject);
             Instantiate(enemigoParticle, gameObject.transform.position, enemigoParticle.transform.rotation);
             audioSourceEnemigo.Play();
+
+            if(gameManagerAirboneDanger.Escudo == 1)
+            {
+                audioSourceArmaduraBaja.Play();
+            }
 
             
             

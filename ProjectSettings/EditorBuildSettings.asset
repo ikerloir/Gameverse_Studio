@@ -44,6 +44,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/MiniGames/3_MortalBag/Scenes/MortalBag.unity
     guid: 8754f2c72f66a56489f5487987478212
+  - enabled: 1
+    path: Assets/MiniGames/1_AirboneDanger/Scene/IntroAirboneDanger.unity
+    guid: dfca07fee76892b4cba71c047408cb0e
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: de9091ebb5af6824d806cea33c8d0ce5, type: 2}
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 6ee72d15cf39dd748a13eac57397b9af, type: 2}
