@@ -7,6 +7,8 @@ public class PlayerMover : MonoBehaviour
 
     private bool moveLeft = false;
     private bool moveRight = false;
+    private float limitLeft = -6.0f;
+    private float limiteRigth = 7.0f;
 
     void Update()
     {
@@ -29,7 +31,22 @@ public class PlayerMover : MonoBehaviour
             }
                 
         }
-            
+
+        //Limites z del jugador
+
+        if (transform.position.z < limitLeft)
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y, limitLeft);
+        }
+
+        if (transform.position.z > limiteRigth)
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y, limiteRigth);
+        }
+
+
+
+
     }
 
    
@@ -51,6 +68,15 @@ public class PlayerMover : MonoBehaviour
     public void StopMoveRight()
     {
         moveRight = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("bags"))
+        {
+            Destroy(other.gameObject);
+            Debug.Log("bag recogida");
+        }
     }
 }
 

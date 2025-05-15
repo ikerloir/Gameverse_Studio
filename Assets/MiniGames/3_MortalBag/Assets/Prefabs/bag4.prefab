@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 3219190675696228974}
   - component: {fileID: 6739913026599134002}
   - component: {fileID: 7924181624245805583}
+  - component: {fileID: -6725071953296488762}
   m_Layer: 0
   m_Name: bag4
-  m_TagString: Untagged
+  m_TagString: bags
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -136,3 +137,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &-6725071953296488762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5638487854227455939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d626a2e13d67d9f4aa9700c5d622a197, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  yLimit: -2
