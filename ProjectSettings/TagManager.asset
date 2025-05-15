@@ -7,6 +7,11 @@ TagManager:
   - Enemigo
   - gasolina
   - Enemy
+  - Customer
+  - Booster
+  - Package
+  - Obstacle
+  - GameCanvas
   layers:
   - Default
   - TransparentFX
