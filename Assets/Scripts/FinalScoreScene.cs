@@ -55,6 +55,6 @@ public class FinalScoreScene : MonoBehaviour
             finalMedalTripleGold.sprite = goldenMedal;
             finalMedalTripleGold.gameObject.SetActive(true);
         }
-        Debug.Log(rating);
+        
     }
 }

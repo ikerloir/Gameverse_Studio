@@ -12,12 +12,14 @@ public class GameManagerAirboneDanger : MonoBehaviour
     public TextMeshProUGUI puntuacionTexto;
     public TextMeshProUGUI escudoTexto;
     private GameObject jugador;
-    public Button volver;
+    public Button siguienteJuego;
+    public Button seguir;
     public AudioSource audioSourceGameOver;
 
     private int puntuacion = 0;
     private int escudo = 5;
     public int Escudo => escudo;
+    public GameOverAirboneDanger gameOverAirboneDanger;
 
 
     public void StartGame()
@@ -26,7 +28,7 @@ public class GameManagerAirboneDanger : MonoBehaviour
         UpdateScoreDisplay();        
         UpdateScoreEscudo();
         jugador = GameObject.FindGameObjectWithTag("Jugador");
-        volver.onClick.AddListener(VolverAlMenuSelectGame);
+        
 
     }
     // logica fin de juego
@@ -35,10 +37,13 @@ public class GameManagerAirboneDanger : MonoBehaviour
         isGameActive = false;
         gameOver.gameObject.SetActive(true);
         audioSourceGameOver.Play();
-        //ya no se usa este boton
-        //volver.gameObject.SetActive(true);
+       
+        siguienteJuego.gameObject.SetActive(true);
+        seguir.gameObject.SetActive(false);
 
-        ScoreManager.Instance.SetScore(0, puntuacion); 
+        ScoreManager.Instance.SetScore(0, puntuacion);
+        gameOverAirboneDanger.MostrarResultado(puntuacion);
+
 
 
 
@@ -77,9 +82,5 @@ public class GameManagerAirboneDanger : MonoBehaviour
         escudoTexto.text = "Escudo: " + escudo;
     }
 
-    void VolverAlMenuSelectGame()
-    {
-       
-        UnityEngine.SceneManagement.SceneManager.LoadScene("GameSelect");
-    }
+    
 }
