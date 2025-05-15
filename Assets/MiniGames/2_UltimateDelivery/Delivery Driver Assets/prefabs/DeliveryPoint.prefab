@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 83543951880590262}
   - component: {fileID: 419594876526300259}
-  - component: {fileID: 7743193781977678659}
+  - component: {fileID: -9010679190159538258}
   m_Layer: 0
   m_Name: DeliveryPoint
   m_TagString: Customer
@@ -88,8 +88,8 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &7743193781977678659
-CircleCollider2D:
+--- !u!70 &-9010679190159538258
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -122,5 +122,6 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
+  m_Offset: {x: -0.035, y: 0}
+  m_Size: {x: 3.4, y: 5.12}
+  m_Direction: 0
