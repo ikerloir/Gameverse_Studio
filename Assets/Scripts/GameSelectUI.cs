@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class GameSelectUI : MonoBehaviour
 {
+    //botones de los juegos
     public Button game1Button;
     public Button game2Button;
     public Button game3Button;
@@ -18,12 +19,12 @@ public class GameSelectUI : MonoBehaviour
 
         game1Button.onClick.AddListener(() => LoadGame("IntroAirboneDanger"));
         game2Button.onClick.AddListener(() => LoadGame("UltimateDelivery"));
-        game3Button.onClick.AddListener(() => LoadGame("MortalBag"));
+        game3Button.onClick.AddListener(() => LoadGame("MortalBagIntro"));
         gameARButton.onClick.AddListener(() => LoadGame("UltimateDefense"));
         gameVRButton.onClick.AddListener(() => LoadGame("ZeroZoneVR"));
         backButton.onClick.AddListener(LoadMainMenu);
     }
-
+    // carga de música segun juego elegido y la Scena
     void LoadGame(string gameScene)
     {
         if (musicManager != null)
@@ -46,13 +47,14 @@ public class GameSelectUI : MonoBehaviour
                     musicManager.PlayMusic(musicManager.zeroZoneVRMusic, true);
                     break;
                 default:
-                    Debug.LogWarning("No se ha encontrado música para la escena: " + gameScene);
+                   
                     break;
             }
         }
+        
         SceneManager.LoadScene(gameScene);
     }
-
+    // carga Scena Menu
     void LoadMainMenu()
     {
         

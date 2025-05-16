@@ -20,7 +20,7 @@ public class FinalScoreScene : MonoBehaviour
         // Llama al método para mostrar las estrellas
         MostrarMedallaFinal(rating);
     }
-
+    //Muestra las medallas segun el rating obtenido de 1 a 5
     void MostrarMedallaFinal(float rating)
     {
         finalMedalDoubleGold.gameObject.SetActive(false);

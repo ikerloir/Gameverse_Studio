@@ -2,10 +2,9 @@ using UnityEngine;
 
 public class MusicManager : MonoBehaviour
 {
+    //musica de juegos
     public static MusicManager Instance;
     public AudioSource musicSource;
-
-    //nuevo
     public AudioClip introMusic;
     public AudioClip menuMusic;
     public AudioClip introAirboneDangerMusic;
@@ -14,7 +13,7 @@ public class MusicManager : MonoBehaviour
     public AudioClip ultimateDefenseMusic;
     public AudioClip zeroZoneVRMusic;
     public AudioClip scoreScene;
-    //fim n
+    
     private void Awake()
     {
         if (Instance == null)
@@ -26,12 +25,12 @@ public class MusicManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        //nuevo
+        
         if (musicSource == null)
             musicSource = gameObject.AddComponent<AudioSource>();       
 
     }
-
+    // carga el clip selecionado en bucle
     public void PlayMusic(AudioClip clip,bool loop)
     {
         if (clip != null )
@@ -42,14 +41,4 @@ public class MusicManager : MonoBehaviour
         }
     }
     
-
-    public void StopMusic()
-    {
-        musicSource.Stop();
-    }
-
-    public void SetVolume(float volume)
-    {
-        musicSource.volume = Mathf.Clamp01(volume);
-    }
 }

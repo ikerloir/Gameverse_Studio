@@ -5,7 +5,7 @@ using UnityEngine.Audio;
 public class PlayerController : MonoBehaviour
 
 {
-   
+    // limites y variables de movimiento   
     private float horizontalInput;
     private float verticalInput;
     private float limiteHorizontal = 7.0f;
@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour
     public void Update()
     {
         
-        // guardamos los moviminetos del jostick en variables
+        // guardamos los movimientos del jostick en variables
         horizontalInput = floatingJoystick.Horizontal;
         verticalInput = floatingJoystick.Vertical;
 
@@ -88,6 +88,7 @@ public class PlayerController : MonoBehaviour
 
 
     }
+    // recolectamos gasolina o actulizamos escudo y puntacion si colisionamos con enemigos
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("gasolina"))

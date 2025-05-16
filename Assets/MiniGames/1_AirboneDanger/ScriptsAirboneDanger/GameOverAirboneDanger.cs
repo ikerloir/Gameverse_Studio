@@ -15,9 +15,8 @@ public class GameOverAirboneDanger : MonoBehaviour
     public Sprite doubleGold;
     public Sprite tripleGold;
 
-   
-    
-
+       
+    // muestra la medalla obtenida segun la puntacion
     public void MostrarResultado(int score)
     {
         medalImage.gameObject.SetActive(true);

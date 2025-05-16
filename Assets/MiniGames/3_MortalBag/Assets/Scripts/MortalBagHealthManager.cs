@@ -91,8 +91,7 @@ public class MortalBagHealthManager : MonoBehaviour
             Debug.LogError("MortalBagScoreManager.Instance es null!");
         }
 
-        // Detener el juego
-        Time.timeScale = 0f;
+        
 
         // Cargar la escena de outro
         SceneManager.LoadScene("MortalBagOutro");

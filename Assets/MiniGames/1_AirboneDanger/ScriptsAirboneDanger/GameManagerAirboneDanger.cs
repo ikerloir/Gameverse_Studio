@@ -31,7 +31,7 @@ public class GameManagerAirboneDanger : MonoBehaviour
         
 
     }
-    // logica fin de juego
+    // logica fin de juego, activa el canva y pasa puntacion a ScoreManager 
     public void GameOver()
     {
         isGameActive = false;
@@ -45,9 +45,8 @@ public class GameManagerAirboneDanger : MonoBehaviour
         gameOverAirboneDanger.MostrarResultado(puntuacion);
 
 
-
-
     }
+    //Actualiza la puntacion
     public void UpdateScore(int score)
     {
         puntuacion += score;  
@@ -59,6 +58,7 @@ public class GameManagerAirboneDanger : MonoBehaviour
         UpdateScoreDisplay();
        
     }
+    //Actualiza el escudo
     public void UpdateEscudo(int removeEsc)
     {
         escudo -= removeEsc;
@@ -72,11 +72,12 @@ public class GameManagerAirboneDanger : MonoBehaviour
             GameOver();
         }
     }
-    
+    // muestra por pantalla la puntacion
     private void UpdateScoreDisplay()
     {
         puntuacionTexto.text = "Score: " + puntuacion;
     }
+    //Muestra por pantalla el valor del escudo
     private void UpdateScoreEscudo()
     {
         escudoTexto.text = "Escudo: " + escudo;

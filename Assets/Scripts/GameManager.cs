@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
     }
 
     public List<SceneButtonPair> sceneButtons;
-
+    //Singleton
     private void Awake()
     {
         if (Instance == null)
@@ -67,6 +67,7 @@ public class GameManager : MonoBehaviour
     {
         ScoreManager.Instance.ResetScores(); // Reinicia puntuaciones
 
+        // musica de cada miniJuego
         if (MusicManager.Instance != null)
         {
             warModeMusic = new AudioClip[]
@@ -78,10 +79,7 @@ public class GameManager : MonoBehaviour
             MusicManager.Instance.zeroZoneVRMusic
             };
         }
-        else
-        {
-            Debug.LogError("MusicManager.Instance es NULL, asegúrate de que MusicManager esté en la escena inicial.");
-        }
+        
 
         // Si estamos en la escena "Intro", esperamos 3 segundos y cargamos "Menu"
         if (SceneManager.GetActiveScene().name == "Intro")
@@ -103,7 +101,7 @@ public class GameManager : MonoBehaviour
     }
 
 
-
+    //carga de escenas y asigna valor a isWArMode segun sellecion de modo de juego
     public void ButtonLoadScene(GameScenes scene)
     {
         if (scene == GameScenes.Menu)
@@ -114,7 +112,7 @@ public class GameManager : MonoBehaviour
         }
         SceneManager.LoadScene(scene.ToString());
     }
-
+    //modo WarMode  
     public void StartWarMode()
     {
         isWarMode = true;
@@ -122,7 +120,7 @@ public class GameManager : MonoBehaviour
         Debug.Log($"GameManager: Iniciando modo guerra. Índice actual: {currentGameIndex}");
         LoadNextWarModeGame();
     }
-
+    //carga de juegos y musica secuencialmente si esta en modo gerra si no vuelve.
     public void LoadNextWarModeGame()
     {
         if (!isWarMode) return;
@@ -147,17 +145,15 @@ public class GameManager : MonoBehaviour
 
         }
     }
-
+    // carga Menu pasado unos segundos con efecto de sonida intro
     private IEnumerator LoadMenuAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-        SceneManager.LoadScene("Menu");
-
-        //nuevo
+        SceneManager.LoadScene("Menu");        
 
         MusicManager.Instance.PlayMusic(MusicManager.Instance.menuMusic, true);
     }
-
+    // conocer en que modo estamos jugando
     public bool IsInWarMode()
     {
         return isWarMode;

@@ -14,17 +14,17 @@ public class MenuUI : MonoBehaviour
         jugarJuegoIndividualButton.onClick.AddListener(LoadGameSelect);
         exitButton.onClick.AddListener(ExitGame);
     }
-
+    // modo guerra
     void StartWarMode()
     {
         GameManager.Instance.StartWarMode();
     }
-
+    // carga scena GameSelect
     void LoadGameSelect()
     {
         SceneManager.LoadScene("GameSelect");
     }
-
+    // cerrar juego
     void ExitGame()
     {
         Application.Quit();
