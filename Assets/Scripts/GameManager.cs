@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
         Score,
         IntroAirboneDanger,      // 1_AirboneDanger
         UltimateDelivery,   // 2_UltimateDelivery
-        MortalBag,          // 3_MortalBag
+        MortalBagIntro,     // 3_MortalBag (new intro scene)
         UltimateDefense,    // 4_UltimateDefense
         ZeroZoneVR          // 5_ZeroZoneVR
     }
@@ -33,12 +33,12 @@ public class GameManager : MonoBehaviour
     {
         GameScenes.IntroAirboneDanger,
         GameScenes.UltimateDelivery,
-        GameScenes.MortalBag,
+        GameScenes.MortalBagIntro,
         GameScenes.UltimateDefense,
         GameScenes.ZeroZoneVR
     };
 
-   
+
 
 
     [System.Serializable]
@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour
     {
         ScoreManager.Instance.ResetScores(); // Reinicia puntuaciones
 
-        if (MusicManager.Instance != null)     
+        if (MusicManager.Instance != null)
         {
             warModeMusic = new AudioClip[]
             {
@@ -86,11 +86,11 @@ public class GameManager : MonoBehaviour
         // Si estamos en la escena "Intro", esperamos 3 segundos y cargamos "Menu"
         if (SceneManager.GetActiveScene().name == "Intro")
         {
-           
-            MusicManager.Instance.PlayMusic(MusicManager.Instance.introMusic,false);
+
+            MusicManager.Instance.PlayMusic(MusicManager.Instance.introMusic, false);
             StartCoroutine(LoadMenuAfterDelay(3f));
         }
-        
+
 
         // Asignar botones desde el Inspector
         foreach (var sceneButton in sceneButtons)
@@ -110,6 +110,7 @@ public class GameManager : MonoBehaviour
         {
             isWarMode = false;
             currentGameIndex = 0;
+            Debug.Log($"GameManager: Reseteando índice a 0 al cargar Menu");
         }
         SceneManager.LoadScene(scene.ToString());
     }
@@ -118,6 +119,7 @@ public class GameManager : MonoBehaviour
     {
         isWarMode = true;
         currentGameIndex = 0;
+        Debug.Log($"GameManager: Iniciando modo guerra. Índice actual: {currentGameIndex}");
         LoadNextWarModeGame();
     }
 
@@ -125,20 +127,24 @@ public class GameManager : MonoBehaviour
     {
         if (!isWarMode) return;
 
+        Debug.Log($"GameManager: Cargando siguiente juego. Índice actual: {currentGameIndex}");
+
         if (currentGameIndex < warModeGames.Length)
         {
-            MusicManager.Instance.PlayMusic(warModeMusic[currentGameIndex],true);
+            MusicManager.Instance.PlayMusic(warModeMusic[currentGameIndex], true);
             SceneManager.LoadScene(warModeGames[currentGameIndex].ToString());
             currentGameIndex++;
+            Debug.Log($"GameManager: Índice incrementado a: {currentGameIndex}. Siguiente juego: {warModeGames[currentGameIndex - 1]}");
         }
         else
         {
             // Hemos completado todos los juegos
             isWarMode = false;
             currentGameIndex = 0;
+            Debug.Log($"GameManager: Completado todos los juegos. Reseteando índice a 0");
             MusicManager.Instance.PlayMusic(MusicManager.Instance.scoreScene, true);
             SceneManager.LoadScene("Score"); // O la escena que prefieras para mostrar la puntuación final
-            
+
         }
     }
 
@@ -148,8 +154,8 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("Menu");
 
         //nuevo
-        
-        MusicManager.Instance.PlayMusic(MusicManager.Instance.menuMusic,true);
+
+        MusicManager.Instance.PlayMusic(MusicManager.Instance.menuMusic, true);
     }
 
     public bool IsInWarMode()

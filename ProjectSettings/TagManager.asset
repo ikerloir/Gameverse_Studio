@@ -12,6 +12,10 @@ TagManager:
   - Package
   - Obstacle
   - GameCanvas
+  - FxTemporaire
+  - Jugador
+  - bags
+  - Ground
   layers:
   - Default
   - TransparentFX

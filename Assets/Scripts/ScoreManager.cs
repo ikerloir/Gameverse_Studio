@@ -17,22 +17,43 @@ public class ScoreManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            Debug.Log("ScoreManager initialized as singleton");
         }
         else
         {
             Destroy(gameObject);
         }
 
-        gameScores = new int[3];
+        gameScores = new int[4];
+        Debug.Log("ScoreManager: Array de puntuaciones inicializado con 4 elementos");
     }
 
     public void SetScore(int gameIndex, int score)
     {
+        if (gameIndex < 0 || gameIndex >= gameScores.Length)
+        {
+            Debug.LogError($"ScoreManager: Índice de juego inválido: {gameIndex}. Debe estar entre 0 y {gameScores.Length - 1}");
+            return;
+        }
+
+        int oldScore = gameScores[gameIndex];
         gameScores[gameIndex] = Mathf.Clamp(score, 0, maxScorePerGame);
+
+        string gameName = GetGameName(gameIndex);
+        string oldMedal = GetMedalType(oldScore);
+        string newMedal = GetMedalType(gameScores[gameIndex]);
+
+        Debug.Log($"ScoreManager: Juego {gameName} - Puntuación actualizada de {oldScore} ({oldMedal}) a {gameScores[gameIndex]} ({newMedal})");
+        Debug.Log($"ScoreManager: Estado actual de puntuaciones: {string.Join(", ", gameScores)}");
     }
 
     public int GetScore(int gameIndex)
     {
+        if (gameIndex < 0 || gameIndex >= gameScores.Length)
+        {
+            Debug.LogError($"ScoreManager: Índice de juego inválido: {gameIndex}. Debe estar entre 0 y {gameScores.Length - 1}");
+            return 0;
+        }
         return gameScores[gameIndex];
     }
 
@@ -46,10 +67,15 @@ public class ScoreManager : MonoBehaviour
         }
 
         int maxTotalScore = gameScores.Length * maxScorePerGame;
+        float starRating = Mathf.Round((totalScore / (float)maxTotalScore) * 5f * 10f) / 10f;
 
-        // Normalizamos a una escala de 0 a 5 estrellas
-        return Mathf.Round((totalScore / (float)maxTotalScore) * 5f * 10f) / 10f;
+        Debug.Log($"ScoreManager: Cálculo de estrellas finales:");
+        Debug.Log($"ScoreManager: Puntuación total: {totalScore} de {maxTotalScore} posible");
+        Debug.Log($"ScoreManager: Rating de estrellas: {starRating}");
+
+        return starRating;
     }
+
     // metodo que reinicia puntaciones si se vuelve a juegar
     public void ResetScores()
     {
@@ -57,6 +83,28 @@ public class ScoreManager : MonoBehaviour
         {
             gameScores[i] = 0;
         }
+        Debug.Log("ScoreManager: Todas las puntuaciones han sido reiniciadas a 0");
     }
 
+    private string GetGameName(int gameIndex)
+    {
+        switch (gameIndex)
+        {
+            case 0: return "AirboneDanger";
+            case 1: return "Ultimate Delivery";
+            case 2: return "Mortal Bag";
+            case 3: return "Ultimate Defense";
+            default: return $"Juego {gameIndex}";
+        }
+    }
+
+    private string GetMedalType(int score)
+    {
+        if (score >= 90) return "Triple Oro";
+        if (score >= 70) return "Doble Oro";
+        if (score >= 50) return "Oro";
+        if (score >= 30) return "Plata";
+        if (score >= 10) return "Bronce";
+        return "Sin medalla";
+    }
 }
