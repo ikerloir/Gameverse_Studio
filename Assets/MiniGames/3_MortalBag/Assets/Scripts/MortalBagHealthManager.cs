@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MortalBagHealthManager : MonoBehaviour
 {
@@ -93,16 +94,8 @@ public class MortalBagHealthManager : MonoBehaviour
         // Detener el juego
         Time.timeScale = 0f;
 
-        // Buscar el MinigameManager para finalizar el juego
-        MinigameManager minigameManager = FindFirstObjectByType<MinigameManager>();
-        if (minigameManager != null)
-        {
-            minigameManager.GameOver();
-        }
-        else
-        {
-            Debug.LogError("No se encontró el MinigameManager!");
-        }
+        // Cargar la escena de outro
+        SceneManager.LoadScene("MortalBagOutro");
     }
 
     public int GetCurrentLives()
