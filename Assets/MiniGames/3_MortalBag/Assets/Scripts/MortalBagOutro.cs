@@ -26,12 +26,6 @@ public class MortalBagOutro : MonoBehaviour
             eventSystem.AddComponent<EventSystem>();
             eventSystem.AddComponent<StandaloneInputModule>();
         }
-
-        // Añadir el componente NextGameButton al botón de continuar
-        if (continueButton != null)
-        {
-            continueButton.gameObject.AddComponent<NextGameButton>();
-        }
     }
 
     private void Start()
@@ -82,8 +76,14 @@ public class MortalBagOutro : MonoBehaviour
 
     private void OnMainMenuClicked()
     {
-        // Cargar el menú principal del juego
-        SceneManager.LoadScene("Menu");
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.ButtonLoadScene(GameManager.GameScenes.Menu);
+        }
+        else
+        {
+            SceneManager.LoadScene("Menu");
+        }
     }
 
     private void OnDestroy()

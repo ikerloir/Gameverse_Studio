@@ -110,6 +110,7 @@ public class GameManager : MonoBehaviour
         {
             isWarMode = false;
             currentGameIndex = 0;
+            Debug.Log($"GameManager: Reseteando índice a 0 al cargar Menu");
         }
         SceneManager.LoadScene(scene.ToString());
     }
@@ -118,6 +119,7 @@ public class GameManager : MonoBehaviour
     {
         isWarMode = true;
         currentGameIndex = 0;
+        Debug.Log($"GameManager: Iniciando modo guerra. Índice actual: {currentGameIndex}");
         LoadNextWarModeGame();
     }
 
@@ -125,17 +127,21 @@ public class GameManager : MonoBehaviour
     {
         if (!isWarMode) return;
 
+        Debug.Log($"GameManager: Cargando siguiente juego. Índice actual: {currentGameIndex}");
+
         if (currentGameIndex < warModeGames.Length)
         {
             MusicManager.Instance.PlayMusic(warModeMusic[currentGameIndex], true);
             SceneManager.LoadScene(warModeGames[currentGameIndex].ToString());
             currentGameIndex++;
+            Debug.Log($"GameManager: Índice incrementado a: {currentGameIndex}. Siguiente juego: {warModeGames[currentGameIndex - 1]}");
         }
         else
         {
             // Hemos completado todos los juegos
             isWarMode = false;
             currentGameIndex = 0;
+            Debug.Log($"GameManager: Completado todos los juegos. Reseteando índice a 0");
             MusicManager.Instance.PlayMusic(MusicManager.Instance.scoreScene, true);
             SceneManager.LoadScene("Score"); // O la escena que prefieras para mostrar la puntuación final
 
