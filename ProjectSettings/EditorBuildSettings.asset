@@ -6,32 +6,60 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Intro.unity
+    path: Assets/CrazyAirport/Scenes/Intro.unity
     guid: af2e0e3a7fe770745897b86741b784e9
   - enabled: 1
-    path: Assets/Scenes/Menu.unity
+    path: Assets/CrazyAirport/Scenes/Menu.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
-    path: Assets/Scenes/GameSelect.unity
+    path: Assets/CrazyAirport/Scenes/GameSelect.unity
     guid: 2aa67dd667a8274489d1ac4bc0cef1b9
   - enabled: 1
+    path: Assets/MiniGames/1_AirboneDanger/Scene/AirboneDanger.unity
+    guid: 57e9d782563432048bd88c4766646056
+  - enabled: 0
     path: Assets/Scenes/Game3dA.unity
     guid: b0790c2214355b346a91a2be44f9a1af
-  - enabled: 1
-    path: Assets/Scenes/Game3dB.unity
+  - enabled: 0
+    path: Assets/MiniGames/3_MortalBag/MortalBag.unity
     guid: 1a084973be253094781f2a56bf181ad5
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Game2d.unity
     guid: 854d4b3280dd5764fb2dba42a58da2ea
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/GameAR.unity
     guid: 94d90aa9911b2f148a6e27d68d3bc7e0
   - enabled: 1
-    path: Assets/Scenes/GameVR.unity
+    path: Assets/MiniGames/5_ZeroZoneVR/ZeroZoneVR.unity
     guid: e6d09c2ddacf4524b81acc5bb963376d
   - enabled: 1
-    path: Assets/Scenes/Score.unity
+    path: Assets/CrazyAirport/Scenes/Score.unity
     guid: e26a8e352b6ede347b4333c770a430eb
+  - enabled: 1
+    path: Assets/MiniGames/4_UltimateDefense/Assets/Scenes/UltimateDefense.unity
+    guid: 1e474ddea0675784a997bb3a09168d4d
+  - enabled: 1
+    path: Assets/MiniGames/2_UltimateDelivery/Scenes/UltimateDelivery.unity
+    guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/MiniGames/3_MortalBag/Assets/Scenes/MortalBagIntro.unity
+    guid: 9f789792b222d154e8975e7d5f0e1084
+  - enabled: 1
+    path: Assets/MiniGames/3_MortalBag/Assets/Scenes/MortalBagsII.unity
+    guid: 9a8b366933b900546ad5bd3b7b26affc
+  - enabled: 1
+    path: Assets/MiniGames/3_MortalBag/Assets/Scenes/MortalBagOutro.unity
+    guid: 9296b1938d126174392768636705868a
+  - enabled: 0
+    path: Assets/MiniGames/3_MortalBag/Scenes/MortalBag.unity
+    guid: 8754f2c72f66a56489f5487987478212
+  - enabled: 1
+    path: Assets/MiniGames/1_AirboneDanger/Scene/IntroAirboneDanger.unity
+    guid: dfca07fee76892b4cba71c047408cb0e
   m_configObjects:
+    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: de9091ebb5af6824d806cea33c8d0ce5, type: 2}
+    UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 6ee72d15cf39dd748a13eac57397b9af, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+    com.unity.xr.arfoundation.simulation_settings: {fileID: 11400000, guid: c199e683398494f32b4cde18e73ab731, type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 3fd4fc0127790db4bae83f7b77da8d45, type: 2}
   m_UseUCBPForAssetBundles: 0
