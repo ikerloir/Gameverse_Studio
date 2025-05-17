@@ -4,11 +4,10 @@ using UnityEngine;
 public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager Instance;
-
+    //array de indices de los juegos por orden de carga
     private int[] gameScores;
-    //private Dictionary<GameManager.GameScenes, int> gameScores = new Dictionary<GameManager.GameScenes, int>();
 
-    // Puedes personalizar esto por juego si lo necesitas
+    // decidimos puntacion máxima
     private const int maxScorePerGame = 100;
 
     private void Awake()
@@ -23,11 +22,11 @@ public class ScoreManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
+        // son 4 juegos que puntuan
         gameScores = new int[4];
         Debug.Log("ScoreManager: Array de puntuaciones inicializado con 4 elementos");
     }
-
+    //asignamo puntacion al juego que coincide con el indice
     public void SetScore(int gameIndex, int score)
     {
         if (gameIndex < 0 || gameIndex >= gameScores.Length)
@@ -37,6 +36,7 @@ public class ScoreManager : MonoBehaviour
         }
 
         int oldScore = gameScores[gameIndex];
+        // la puntacion debe ser entre 0 y 100
         gameScores[gameIndex] = Mathf.Clamp(score, 0, maxScorePerGame);
 
         string gameName = GetGameName(gameIndex);
@@ -46,7 +46,7 @@ public class ScoreManager : MonoBehaviour
         Debug.Log($"ScoreManager: Juego {gameName} - Puntuación actualizada de {oldScore} ({oldMedal}) a {gameScores[gameIndex]} ({newMedal})");
         Debug.Log($"ScoreManager: Estado actual de puntuaciones: {string.Join(", ", gameScores)}");
     }
-
+    // Se implementa por si se necesita obter puntacion de un juego
     public int GetScore(int gameIndex)
     {
         if (gameIndex < 0 || gameIndex >= gameScores.Length)
@@ -56,7 +56,7 @@ public class ScoreManager : MonoBehaviour
         }
         return gameScores[gameIndex];
     }
-
+    // devuelve la puntacion media de los 4 juegos y lo ratea a un float entre 0 y 5
     public float CalculateFinalStarRating()
     {
         int totalScore = 0;
@@ -85,7 +85,7 @@ public class ScoreManager : MonoBehaviour
         }
         Debug.Log("ScoreManager: Todas las puntuaciones han sido reiniciadas a 0");
     }
-
+    //nombre de los juegos
     private string GetGameName(int gameIndex)
     {
         switch (gameIndex)
@@ -97,7 +97,7 @@ public class ScoreManager : MonoBehaviour
             default: return $"Juego {gameIndex}";
         }
     }
-
+    // tipo de medalla conseguida
     private string GetMedalType(int score)
     {
         if (score >= 90) return "Triple Oro";

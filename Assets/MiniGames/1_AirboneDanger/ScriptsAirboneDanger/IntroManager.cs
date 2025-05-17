@@ -8,7 +8,8 @@ public class IntroManager : MonoBehaviour
 {
     public TextMeshProUGUI introText;
     public Button introBoton;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    
+    // carga el texto de la intro y pasado unos segundos muestra el boton de despegue que carga la escnea del juego
     void Start()
     {
         introText.gameObject.SetActive(true);

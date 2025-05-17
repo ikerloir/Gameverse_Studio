@@ -14,7 +14,7 @@ public class SpawnManager : MonoBehaviour
     public float repitTimeEnemigos;
     private GameManagerAirboneDanger gameManagerAirboneDanger;
     
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    
     void Start()
     {
         gameManagerAirboneDanger = GameObject.Find("GameManagerAirboneDanger").GetComponent<GameManagerAirboneDanger>();    
@@ -30,7 +30,7 @@ public class SpawnManager : MonoBehaviour
     {
         
     }
-
+    // crea los bidones de gasolina
     void SpawnGasolina()
     {
         if (gameManagerAirboneDanger.isGameActive)
@@ -42,7 +42,7 @@ public class SpawnManager : MonoBehaviour
             Instantiate(gasolinaPrefab, spawnGasolinaPos, gasolinaPrefab.transform.rotation);
         }
     }
-
+    //crea los enemigos 
     void SpawnEnemigos()
     {
         if (gameManagerAirboneDanger.isGameActive)

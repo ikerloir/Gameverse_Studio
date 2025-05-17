@@ -2413,8 +2413,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f12c1e340e00fe4f8bea6eb05a85040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mar1: {fileID: 1944093403}
-  mar2: {fileID: 1658306861}
+  suelo1: {fileID: 1944093403}
+  suelo2: {fileID: 1658306861}
   contenedorMar: {fileID: 1391002671}
   avion: {fileID: 713389391}
   gameManagerAirboneDanger: {fileID: 210187761}
