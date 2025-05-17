@@ -22,6 +22,8 @@ public class HUDManager : MonoBehaviour
     [Header("Configuración")]
     [SerializeField] private int killsParaVictoria = 5;
 
+    private const int myGameIndex = 3;
+
     private int currentKills = 0;
     private int totalDisparos = 0;
     private int disparosAcertados = 0;
@@ -30,6 +32,9 @@ public class HUDManager : MonoBehaviour
 
     private bool gameEnded = false;
 
+    private float playerCurrentHealth = 100f;
+    private float playerMaxHealth = 100f;
+
     private void Start()
     {
         victoriaText.SetActive(false);
@@ -37,17 +42,27 @@ public class HUDManager : MonoBehaviour
         panelResultados.SetActive(false);
 
         UpdateKillsDisplay();
+        UpdatePlayerHealth(playerCurrentHealth, playerMaxHealth);
     }
 
     public void UpdatePlayerHealth(float current, float max)
     {
-        if (healthText != null)
-            healthText.text = $"{current:F0} / {max:F0}";
+        playerCurrentHealth = Mathf.Clamp(current, 0f, max);
+        playerMaxHealth = max;
 
-        if (current <= 0 && !gameEnded)
+        if (healthText != null)
+            healthText.text = $"{playerCurrentHealth:F0} / {playerMaxHealth:F0}";
+
+        if (playerCurrentHealth <= 0 && !gameEnded)
         {
             StartCoroutine(GameOverSequence());
         }
+    }
+
+    public void AddLife(float amount)
+    {
+        playerCurrentHealth = Mathf.Clamp(playerCurrentHealth + amount, 0f, playerMaxHealth);
+        UpdatePlayerHealth(playerCurrentHealth, playerMaxHealth);
     }
 
     public void ShowDamageReceived(float damage)
@@ -106,9 +121,14 @@ public class HUDManager : MonoBehaviour
     {
         gameEnded = true;
         gameOverText.SetActive(true);
-        audioSource.PlayOneShot(sonidoGameOver);
+
+        if (sonidoGameOver != null)
+            audioSource.PlayOneShot(sonidoGameOver);
+
         yield return new WaitForSeconds(2f);
         gameOverText.SetActive(false);
+
+        ReportarPuntuacionFinal(false);
         MostrarResultados();
     }
 
@@ -116,16 +136,23 @@ public class HUDManager : MonoBehaviour
     {
         gameEnded = true;
         victoriaText.SetActive(true);
-        audioSource.PlayOneShot(sonidoVictoria);
+
+        if (sonidoVictoria != null)
+            audioSource.PlayOneShot(sonidoVictoria);
+
         yield return new WaitForSeconds(2f);
         victoriaText.SetActive(false);
+
+        ReportarPuntuacionFinal(true);
         MostrarResultados();
     }
 
     private void MostrarResultados()
     {
         panelResultados.SetActive(true);
-        audioSource.PlayOneShot(sonidoResultados);
+
+        if (sonidoResultados != null)
+            audioSource.PlayOneShot(sonidoResultados);
 
         float ratioAcierto = totalDisparos > 0 ? (float)disparosAcertados / totalDisparos : 0f;
         string valoracion = CalcularValoracion(ratioAcierto);
@@ -137,6 +164,8 @@ public class HUDManager : MonoBehaviour
             $"Daño infligido: {dañoTotalInfligido:F1}\n" +
             $"Enemigos derrotados: {currentKills}\n" +
             $"Valoración: {valoracion}";
+
+        StartCoroutine(AutoNextGameAfterDelay());
     }
 
     private string CalcularValoracion(float ratioAcierto)
@@ -147,5 +176,63 @@ public class HUDManager : MonoBehaviour
         if (score > 100) return "B";
         if (score > 50) return "C";
         return "D";
+    }
+
+    private int ValoracionALevelScore(string valoracion)
+    {
+        switch (valoracion)
+        {
+            case "S": return 100;
+            case "A": return 80;
+            case "B": return 60;
+            case "C": return 40;
+            default: return 20;
+        }
+    }
+
+    public void ReportarPuntuacionFinal(bool victoria)
+    {
+        int scoreFinal = 0;
+
+        if (victoria)
+        {
+            float ratioAcierto = totalDisparos > 0 ? (float)disparosAcertados / totalDisparos : 0f;
+            string valoracion = CalcularValoracion(ratioAcierto);
+            scoreFinal = ValoracionALevelScore(valoracion);
+        }
+        else
+        {
+            scoreFinal = 0;
+        }
+
+        if (ScoreManager.Instance != null)
+        {
+            ScoreManager.Instance.SetScore(myGameIndex, scoreFinal);
+            Debug.Log($"Puntuación reportada al ScoreManager en índice {myGameIndex}: {scoreFinal}");
+        }
+        else
+        {
+            Debug.LogWarning("ScoreManager.Instance no encontrado al reportar puntuación.");
+        }
+    }
+
+    private IEnumerator AutoNextGameAfterDelay()
+    {
+        yield return new WaitForSeconds(4f);
+
+        if (GameManager.Instance != null)
+        {
+            if (GameManager.Instance.IsInWarMode())
+            {
+                GameManager.Instance.LoadNextWarModeGame();
+            }
+            else
+            {
+                GameManager.Instance.ButtonLoadScene(GameManager.GameScenes.Menu);
+
+                if (MusicManager.Instance != null)
+                    MusicManager.Instance.PlayMusic(MusicManager.Instance.menuMusic, true);
+            }
+        }
     }
 }
