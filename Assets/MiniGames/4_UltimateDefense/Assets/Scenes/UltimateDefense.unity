@@ -16220,7 +16220,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &339539673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -56874,7 +56874,7 @@ MonoBehaviour:
   - {fileID: 2030258763}
   - {fileID: 298354782}
   - {fileID: 1859746581}
-  fireRate: 0.1
+  fireRate: 0.2
   impactEffectPrefab: {fileID: 1587879652}
   effectOffset: 0.1
   hitProbability: 0.5
@@ -77277,6 +77277,50 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!1 &1635325474
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1635325476}
+  - component: {fileID: 1635325475}
+  m_Layer: 0
+  m_Name: ScoreManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1635325475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1635325474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5d224b7d9e0a6746ba3506b46cf051f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1635325476
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1635325474}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2750, y: 1357.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1646070664
 GameObject:
   m_ObjectHideFlags: 0
@@ -82505,7 +82549,7 @@ MonoBehaviour:
   - {fileID: 467261700}
   - {fileID: 1634615687}
   - {fileID: 563154907}
-  fireRate: 0.1
+  fireRate: 0.2
   impactEffectPrefab: {fileID: 1587879652}
   effectOffset: 0.1
   hitProbability: 0.5
@@ -92921,9 +92965,9 @@ MonoBehaviour:
   gameOverText: {fileID: 814977542}
   panelResultados: {fileID: 1347313307}
   audioSource: {fileID: 1694817437}
-  sonidoVictoria: {fileID: 8300000, guid: f9d1c09eefa868944a44fc3a5c8078db, type: 3}
-  sonidoGameOver: {fileID: 8300000, guid: 690704f1ec7e75f4893573ca8ed64b08, type: 3}
-  sonidoResultados: {fileID: 8300000, guid: 93f702b69d28d2044a38c49c0e748650, type: 3}
+  sonidoVictoria: {fileID: 8300000, guid: c81c1ca4515b40d4896bd1cfb836259f, type: 3}
+  sonidoGameOver: {fileID: 8300000, guid: 6c7795ab72b79da4fa50b69d2c8796fa, type: 3}
+  sonidoResultados: {fileID: 8300000, guid: c0f946c60f5e7f4479d07d931c539c08, type: 3}
   killsParaVictoria: 5
 --- !u!1 &1993874151
 GameObject:
@@ -107988,19 +108032,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 120202642488825002}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 0
+      m_Calls: []
 --- !u!4 &7308968629756170311
 Transform:
   m_ObjectHideFlags: 0
@@ -109120,3 +109152,4 @@ SceneRoots:
   - {fileID: 1077196067}
   - {fileID: 1694817438}
   - {fileID: 339539674}
+  - {fileID: 1635325476}
