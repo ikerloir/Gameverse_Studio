@@ -23,12 +23,10 @@ public class HUDManager : MonoBehaviour
     [SerializeField] private int killsParaVictoria = 5;
 
     [Header("Panel de Resultado")]
-    public GameObject panelResultados;
     public TextMeshProUGUI resultadoText;
     public TextMeshProUGUI puntuacionFinalText;
 
     [Header("Música")]
-    public AudioSource audioSource;
     public AudioClip victoriaClip;
     public AudioClip derrotaClip;
     public float duracionMusica = 5f;
@@ -52,9 +50,8 @@ public class HUDManager : MonoBehaviour
 
     public void UpdatePlayerHealth(float current, float max)
     {
-        if (juegoTerminado) return;
+        if (gameEnded) return;
 
-        currentHealth = value;
         if (healthText != null)
             healthText.text = $"{current:F0} / {max:F0}";
 

@@ -20,7 +20,7 @@ public class MortalBagOutro : MonoBehaviour
     private void Awake()
     {
         // Asegurarse de que existe un EventSystem
-        if (FindObjectOfType<EventSystem>() == null)
+        if (FindFirstObjectByType<EventSystem>() == null)
         {
             GameObject eventSystem = new GameObject("EventSystem");
             eventSystem.AddComponent<EventSystem>();
