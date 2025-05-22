@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemyPlaneCombat : MonoBehaviour, IDamageable
 {
@@ -12,18 +12,25 @@ public class EnemyPlaneCombat : MonoBehaviour, IDamageable
     public AudioClip explosionSound;
     public float explosionSoundVolume = 1f;
 
-    public GameObject enemyProjectilePrefab; // Prefab del proyectil a disparar
-    public Transform[] firePoints; // Los 4 puntos de disparo
+    public GameObject enemyProjectilePrefab;
+    public Transform[] firePoints;
     public float fireRate = 2f;
     private float fireCooldown = 0f;
 
     private Transform playerTarget;
 
+    [Header("Impact Effect Settings")]
+    public ParticleSystem impactEffectPrefab;
+    public float effectOffset = 0.1f;
+
+    [Header("Damage Settings")]
+    [Range(0f, 1f)]
+    public float hitProbability = 0.8f;
+
     private void Start()
     {
         currentHealth = maxHealth;
 
-        // Buscar al jugador con nombre "LP"
         GameObject player = GameObject.Find("LP");
         if (player != null)
         {
@@ -66,6 +73,36 @@ public class EnemyPlaneCombat : MonoBehaviour, IDamageable
     {
         if (isDead) return;
 
+        Collider ownCollider = GetComponent<Collider>();
+        Vector3 hitPoint = source != null ? source.transform.position : transform.position;
+
+
+        Vector3 spawnPos = hitPoint + (transform.position - source.transform.position).normalized * effectOffset;
+
+        // Mostrar el efecto siempre en el punto de impacto, en espacio WORLD
+        if (impactEffectPrefab != null)
+        {
+            var fx = Instantiate(impactEffectPrefab, spawnPos, Quaternion.identity);
+            var fxMain = fx.main;
+            fxMain.simulationSpace = ParticleSystemSimulationSpace.World;
+            fx.Play();
+            Destroy(fx.gameObject, 2f);
+
+            Debug.Log($"💥 [ImpactEffect] Instanciado en (WORLD): {spawnPos}");
+        }
+
+        // Comprobación de probabilidad de impacto
+        if (Random.value > hitProbability)
+        {
+            Debug.Log($"❌ [MISS] {gameObject.name} ignoró el impacto de {source?.name} (fallo físico sin daño)");
+            return;
+        }
+
+        Debug.Log($"🔺 [HIT] {gameObject.name} recibió {amount} daño de {source?.name}");
+        Debug.Log($"📍 Posición del EnemyPlane: {transform.position}");
+        if (source != null)
+            Debug.Log($"📍 Posición del source (proyectil): {source.transform.position}");
+
         currentHealth = Mathf.Clamp(currentHealth - amount, 0f, maxHealth);
         DamageEffects.ShowFloatingText(floatingTextPrefab, transform.position, amount);
 
@@ -88,11 +125,9 @@ public class EnemyPlaneCombat : MonoBehaviour, IDamageable
 
     private void Die()
     {
-        // Crear GameObject de explosi�n
         GameObject explosion = new GameObject("AirplaneExplosion");
         explosion.transform.position = transform.position;
 
-        // Crear el sistema de part�culas principal (fuego)
         ParticleSystem firePS = explosion.AddComponent<ParticleSystem>();
         var main = firePS.main;
         main.duration = 2.0f;
@@ -145,7 +180,6 @@ public class EnemyPlaneCombat : MonoBehaviour, IDamageable
         noise.frequency = 0.5f;
         noise.scrollSpeed = 0.2f;
 
-        // Asignar material seguro con textura blanca y shader additive
         var renderer = firePS.GetComponent<ParticleSystemRenderer>();
         Shader shader = Shader.Find("Particles/Standard Unlit");
         Texture2D whiteTex = new Texture2D(1, 1);
@@ -156,13 +190,12 @@ public class EnemyPlaneCombat : MonoBehaviour, IDamageable
             Material mat = new Material(shader);
             mat.SetTexture("_MainTex", whiteTex);
             mat.SetColor("_Color", Color.white);
-            mat.SetFloat("_Mode", 2); // Additive
+            mat.SetFloat("_Mode", 2);
             renderer.material = mat;
         }
 
         firePS.Play();
 
-        // Crear sistema de humo
         GameObject smokeObj = new GameObject("Smoke");
         smokeObj.transform.parent = explosion.transform;
         smokeObj.transform.localPosition = Vector3.zero;
@@ -182,10 +215,9 @@ public class EnemyPlaneCombat : MonoBehaviour, IDamageable
         smokeShape.shapeType = ParticleSystemShapeType.Sphere;
         smokeShape.radius = 2.5f;
         var smokeRenderer = smokePS.GetComponent<ParticleSystemRenderer>();
-        smokeRenderer.material = renderer.material; // Reusar el material blanco con additive (opcionalmente puedes usar un shader Alpha Blended)
+        smokeRenderer.material = renderer.material;
         smokePS.Play();
 
-        // Crear sistema de chispas
         GameObject sparksObj = new GameObject("Sparks");
         sparksObj.transform.parent = explosion.transform;
         sparksObj.transform.localPosition = Vector3.zero;
@@ -209,7 +241,6 @@ public class EnemyPlaneCombat : MonoBehaviour, IDamageable
         sparksRenderer.material = renderer.material;
         sparksPS.Play();
 
-        // Crear luz puntual temporal
         var lightObj = new GameObject("ExplosionLight");
         lightObj.transform.parent = explosion.transform;
         lightObj.transform.localPosition = Vector3.zero;
@@ -220,18 +251,12 @@ public class EnemyPlaneCombat : MonoBehaviour, IDamageable
         light.color = Color.yellow;
         Destroy(lightObj, 0.5f);
 
-        // Sonido de explosi�n
         if (explosionSound != null)
         {
             AudioSource.PlayClipAtPoint(explosionSound, transform.position, explosionSoundVolume);
         }
 
-        // Destruir todo el sistema despu�s de 7 segundos
         Destroy(explosion, 7f);
-
-        // Destruir el avi�n
         Destroy(gameObject);
     }
-
-
 }

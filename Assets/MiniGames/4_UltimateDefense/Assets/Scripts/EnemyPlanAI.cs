@@ -7,8 +7,8 @@ public class EnemyPlaneAI : MonoBehaviour
     public BoxCollider flightZone;
 
     [Header("Altura controlada")]
-    public float minY = 1.2f;
-    public float maxY = 2.5f;
+    public float minY = 1.2f; // altura mínima (ideal para persona de 1.70m)
+    public float maxY = 2.5f; // altura máxima visible en AR
 
     [Header("Cambio de rumbo aleatorio")]
     public float changeTargetInterval = 4f;
@@ -25,6 +25,7 @@ public class EnemyPlaneAI : MonoBehaviour
             return;
         }
 
+        // Posición inicial 2 metros frente a la cámara, a ~1.7m de altura, en diagonal
         Vector3 initialOffset = Camera.main.transform.forward * 2f + Vector3.up * 1.7f;
         transform.position = Camera.main.transform.position + initialOffset;
         transform.rotation = Quaternion.LookRotation(Vector3.down + Camera.main.transform.forward);
@@ -36,6 +37,7 @@ public class EnemyPlaneAI : MonoBehaviour
     {
         changeTargetTimer -= Time.deltaTime;
 
+        // Cambiar de destino aleatoriamente cada cierto tiempo
         if (changeTargetTimer <= 0f || Vector3.Distance(transform.position, currentTarget) < 1f)
         {
             PickNewRandomTarget();
@@ -60,18 +62,9 @@ public class EnemyPlaneAI : MonoBehaviour
         Bounds bounds = flightZone.bounds;
 
         float x = Random.Range(bounds.min.x, bounds.max.x);
-        float y = Random.Range(minY, maxY);
+        float y = Random.Range(minY, maxY); // Altura controlada
         float z = Random.Range(bounds.min.z, bounds.max.z);
 
         currentTarget = new Vector3(x, y, z);
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Bala"))
-        {
-            Destroy(other.gameObject);
-            Destroy(gameObject);
-        }
     }
 }

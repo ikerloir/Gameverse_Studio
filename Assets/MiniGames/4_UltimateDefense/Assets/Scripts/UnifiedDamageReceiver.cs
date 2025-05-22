@@ -23,9 +23,8 @@ public class UnifiedDamageReceiver : MonoBehaviour, IDamageable
     private bool isInvulnerable = true;
     private float invulnerabilityTime = 5f;
 
-    // NUEVO: Registro de fuentes recientes de daño
     private Dictionary<GameObject, float> recentSources = new Dictionary<GameObject, float>();
-    private float sourceCooldown = 0.1f; // Tiempo en segundos que una fuente puede volver a sonar
+    private float sourceCooldown = 0.1f;
 
     void Start()
     {
@@ -43,40 +42,50 @@ public class UnifiedDamageReceiver : MonoBehaviour, IDamageable
     void DisableInvulnerability()
     {
         isInvulnerable = false;
-        Debug.Log($"🛡️ {gameObject.name} ya no es invulnerable.");
+        Debug.Log($"🛡️ [{gameObject.name}] Invulnerabilidad desactivada.");
     }
 
     public void TakeDamage(float amount, GameObject source)
     {
         if (isInvulnerable)
         {
-            Debug.Log($"🛡️ {gameObject.name} ignoró daño por invulnerabilidad inicial.");
+            Debug.Log($"🛡️ [{gameObject.name}] Ignoró daño por invulnerabilidad inicial.");
             return;
         }
 
         Debug.Log($"🔺 [DAMAGE] {gameObject.name} recibió {amount} daño de {source?.name}");
+        Debug.Log($"📍 Posición actual del objeto: {transform.position}");
+        if (source != null)
+            Debug.Log($"📍 Posición del proyectil (source): {source.transform.position}");
+
         currentHealth = Mathf.Clamp(currentHealth - amount, 0f, maxHealth);
-        Debug.Log($"❤️ [HP] Vida restante de {gameObject.name}: {currentHealth}");
+        Debug.Log($"❤️ [HP] {gameObject.name} vida restante: {currentHealth}");
 
         Vector3 spawnPos = (floatingTextSpawnPoint != null) ? floatingTextSpawnPoint.position : transform.position;
+        Debug.Log($"📝 Spawn del texto flotante en: {spawnPos}");
+
         DamageEffects.ShowFloatingText(floatingTextPrefab, spawnPos, amount);
         DamageEffects.ShakeCamera(cameraShake);
 
-        // NUEVO: Solo sonar si la fuente no ha impactado en el último corto tiempo
         if (!recentSources.ContainsKey(source) || Time.time - recentSources[source] > sourceCooldown)
         {
             DamageEffects.PlaySound(audioSource, hitSound);
             recentSources[source] = Time.time;
+            Debug.Log($"🔊 Sonido de impacto reproducido.");
         }
 
         if (lifeHUD != null)
+        {
             lifeHUD.UpdateLife((int)currentHealth);
+            Debug.Log($"🖥️ HUD actualizado con vida: {currentHealth}");
+        }
 
         HUDManager hud = FindFirstObjectByType<HUDManager>();
         if (hud != null)
         {
             hud.UpdatePlayerHealth(currentHealth, maxHealth);
             hud.ShowDamageReceived(amount);
+            Debug.Log($"🖥️ HUDManager notificado del daño recibido.");
         }
 
         if (currentHealth <= 0f)
@@ -85,7 +94,7 @@ public class UnifiedDamageReceiver : MonoBehaviour, IDamageable
 
     void Die()
     {
-        Debug.Log($"💀 [UnifiedDamageReceiver] {gameObject.name} ha sido destruido.");
+        Debug.Log($"💀 [UnifiedDamageReceiver] {gameObject.name} ha sido destruido en {transform.position}.");
 
         GameObject explosion = new GameObject("AirplaneExplosion");
         explosion.transform.position = transform.position;
@@ -99,10 +108,11 @@ public class UnifiedDamageReceiver : MonoBehaviour, IDamageable
             source.spatialBlend = 0f;
             source.Play();
             Destroy(audioObj, explosionSound.length);
+
+            Debug.Log($"💥 Sonido de explosión reproducido en {transform.position}");
         }
 
-        // Configuración de Partículas (sin cambios)
-
+        // Configuración de Partículas
         ParticleSystem firePS = explosion.AddComponent<ParticleSystem>();
         firePS.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         var main = firePS.main;
@@ -129,14 +139,14 @@ public class UnifiedDamageReceiver : MonoBehaviour, IDamageable
         Gradient grad = new Gradient();
         grad.SetKeys(
             new GradientColorKey[] {
-            new GradientColorKey(Color.yellow, 0.0f),
-            new GradientColorKey(Color.red, 0.5f),
-            new GradientColorKey(new Color(0.05f, 0.05f, 0.05f), 1.0f)
+                new GradientColorKey(Color.yellow, 0.0f),
+                new GradientColorKey(Color.red, 0.5f),
+                new GradientColorKey(new Color(0.05f, 0.05f, 0.05f), 1.0f)
             },
             new GradientAlphaKey[] {
-            new GradientAlphaKey(1.0f, 0.0f),
-            new GradientAlphaKey(0.5f, 0.5f),
-            new GradientAlphaKey(0.0f, 1.0f)
+                new GradientAlphaKey(1.0f, 0.0f),
+                new GradientAlphaKey(0.5f, 0.5f),
+                new GradientAlphaKey(0.0f, 1.0f)
             }
         );
         colorOverLifetime.color = grad;
@@ -170,6 +180,7 @@ public class UnifiedDamageReceiver : MonoBehaviour, IDamageable
         }
 
         firePS.Play();
+        Debug.Log($"🔥 Partículas de explosión creadas y activadas.");
 
         if (explosionSound != null)
         {
@@ -181,5 +192,4 @@ public class UnifiedDamageReceiver : MonoBehaviour, IDamageable
         Destroy(explosion, 7f);
         Destroy(gameObject);
     }
-
 }

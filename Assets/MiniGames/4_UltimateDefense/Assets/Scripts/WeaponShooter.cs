@@ -5,12 +5,13 @@ public class WeaponShooter : MonoBehaviour
     public GameObject bulletPrefab;
     public Transform muzzle1;
     public Transform muzzle2;
-
     public float bulletSpeed = 15f;
     public float fireRate = 0.3f;
 
+    public AudioSource shootAudioSource; // Añadido: Referencia al AudioSource para sonido de disparo
+
     private float nextFireTime = 0f;
-    private bool useFirstMuzzle = true; // Alternar ca�ones
+    private bool useFirstMuzzle = true; // Alternar cañones
 
     void Update()
     {
@@ -57,6 +58,12 @@ public class WeaponShooter : MonoBehaviour
         if (hud != null)
         {
             hud.RegisterProjectileFired();
+        }
+
+        // Añadido: Reproducir sonido de disparo
+        if (shootAudioSource != null)
+        {
+            shootAudioSource.Play();
         }
 
         Destroy(bullet, 5f);
