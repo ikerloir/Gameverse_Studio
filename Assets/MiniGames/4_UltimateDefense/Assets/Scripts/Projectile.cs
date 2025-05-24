@@ -1,34 +1,43 @@
 using UnityEngine;
+using System.Collections;
 
 public class Projectile : MonoBehaviour
 {
     public float speed = 100f;
     public float damage = 10f;
     public string targetTag = "Enemy";
-    public GameObject impactEffectPrefab;
+    public string impactEffectTag = "Impact";
 
     private Vector3 direction;
     private bool hasHit = false;
 
+    private static HUDManager hud;
+
     public void SetDirection(Vector3 dir)
     {
         direction = dir.normalized;
+        hasHit = false;
     }
 
     void Start()
     {
-        Destroy(gameObject, 5f);
+        if (hud == null)
+        {
+            hud = FindObjectOfType<HUDManager>();
+        }
+
+        Invoke(nameof(Deactivate), 5f);
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        transform.position += direction * speed * Time.deltaTime;
+        transform.position += direction * speed * Time.fixedDeltaTime;
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (hasHit) return;
-        if (!string.IsNullOrEmpty(targetTag) && !other.CompareTag(targetTag)) return;
+        if (hasHit || (!string.IsNullOrEmpty(targetTag) && !other.CompareTag(targetTag)))
+            return;
 
         bool acertado = false;
 
@@ -40,23 +49,29 @@ public class Projectile : MonoBehaviour
 
         hasHit = true;
 
-        // Solo si la bala es contra 'Enemy', asumimos que es del Player y actualizamos el HUD
-        if (targetTag == "Enemy")
+        if (targetTag == "Enemy" && hud != null)
         {
-            var hud = GameObject.FindFirstObjectByType<HUDManager>();
-            if (hud != null)
-            {
-                hud.AddShot(acertado);
-            }
+            hud.AddShot(acertado);
         }
 
-        if (impactEffectPrefab != null)
+        if (!string.IsNullOrEmpty(impactEffectTag))
         {
             Vector3 hitPos = other.ClosestPoint(transform.position);
-            var fx = Instantiate(impactEffectPrefab, hitPos, Quaternion.LookRotation(-direction));
-            Destroy(fx, 2f);
+            GameObject fx = ObjectPooler.Instance.SpawnFromPool(impactEffectTag, hitPos, Quaternion.LookRotation(-direction));
+            StartCoroutine(DisableAfterSeconds(fx, 2f));
         }
 
-        Destroy(gameObject);
+        Deactivate();
+    }
+
+    void Deactivate()
+    {
+        gameObject.SetActive(false);
+    }
+
+    IEnumerator DisableAfterSeconds(GameObject obj, float time)
+    {
+        yield return new WaitForSeconds(time);
+        obj.SetActive(false);
     }
 }

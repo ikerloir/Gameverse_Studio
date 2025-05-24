@@ -4,6 +4,8 @@ using System.Collections;
 
 public class HUDManager : MonoBehaviour
 {
+    public static HUDManager Instance;
+
     [Header("Referencias UI")]
     [SerializeField] private TextMeshProUGUI killsText;
     [SerializeField] private TextMeshProUGUI healthText;
@@ -31,15 +33,21 @@ public class HUDManager : MonoBehaviour
     private float dañoTotalInfligido = 0f;
 
     private bool gameEnded = false;
-
     private float playerCurrentHealth = 100f;
     private float playerMaxHealth = 100f;
 
+    private void Awake()
+    {
+        // Singleton pattern para acceso global sin FindObjectOfType
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
+    }
+
     private void Start()
     {
-        victoriaText.SetActive(false);
-        gameOverText.SetActive(false);
-        panelResultados.SetActive(false);
+        victoriaText?.SetActive(false);
+        gameOverText?.SetActive(false);
+        panelResultados?.SetActive(false);
 
         UpdateKillsDisplay();
         UpdatePlayerHealth(playerCurrentHealth, playerMaxHealth);
@@ -54,9 +62,7 @@ public class HUDManager : MonoBehaviour
             healthText.text = $"{playerCurrentHealth:F0} / {playerMaxHealth:F0}";
 
         if (playerCurrentHealth <= 0 && !gameEnded)
-        {
             StartCoroutine(GameOverSequence());
-        }
     }
 
     public void AddLife(float amount)
@@ -71,7 +77,7 @@ public class HUDManager : MonoBehaviour
 
         if (damageReceivedText != null)
         {
-            damageReceivedText.text = "-" + damage.ToString("F0");
+            damageReceivedText.text = $"-{damage:F0}";
             damageReceivedText.gameObject.SetActive(true);
             CancelInvoke(nameof(HideDamageText));
             Invoke(nameof(HideDamageText), 1.5f);
@@ -80,8 +86,7 @@ public class HUDManager : MonoBehaviour
 
     private void HideDamageText()
     {
-        if (damageReceivedText != null)
-            damageReceivedText.gameObject.SetActive(false);
+        damageReceivedText?.gameObject.SetActive(false);
     }
 
     public void RegisterProjectileFired()
@@ -106,9 +111,7 @@ public class HUDManager : MonoBehaviour
         UpdateKillsDisplay();
 
         if (currentKills >= killsParaVictoria && !gameEnded)
-        {
             StartCoroutine(VictoriaSequence());
-        }
     }
 
     private void UpdateKillsDisplay()
@@ -120,14 +123,10 @@ public class HUDManager : MonoBehaviour
     private IEnumerator GameOverSequence()
     {
         gameEnded = true;
-        gameOverText.SetActive(true);
-
-        if (sonidoGameOver != null)
-            audioSource.PlayOneShot(sonidoGameOver);
-
+        gameOverText?.SetActive(true);
+        PlaySound(sonidoGameOver);
         yield return new WaitForSeconds(2f);
-        gameOverText.SetActive(false);
-
+        gameOverText?.SetActive(false);
         ReportarPuntuacionFinal(false);
         MostrarResultados();
     }
@@ -135,35 +134,32 @@ public class HUDManager : MonoBehaviour
     private IEnumerator VictoriaSequence()
     {
         gameEnded = true;
-        victoriaText.SetActive(true);
-
-        if (sonidoVictoria != null)
-            audioSource.PlayOneShot(sonidoVictoria);
-
+        victoriaText?.SetActive(true);
+        PlaySound(sonidoVictoria);
         yield return new WaitForSeconds(2f);
-        victoriaText.SetActive(false);
-
+        victoriaText?.SetActive(false);
         ReportarPuntuacionFinal(true);
         MostrarResultados();
     }
 
     private void MostrarResultados()
     {
-        panelResultados.SetActive(true);
-
-        if (sonidoResultados != null)
-            audioSource.PlayOneShot(sonidoResultados);
+        panelResultados?.SetActive(true);
+        PlaySound(sonidoResultados);
 
         float ratioAcierto = totalDisparos > 0 ? (float)disparosAcertados / totalDisparos : 0f;
         string valoracion = CalcularValoracion(ratioAcierto);
 
-        resultadoTexto.text =
-            $"Disparos: {totalDisparos}\n" +
-            $"Aciertos: {disparosAcertados} ({(ratioAcierto * 100f):F1}%)\n" +
-            $"Daño recibido: {dañoTotalRecibido:F1}\n" +
-            $"Daño infligido: {dañoTotalInfligido:F1}\n" +
-            $"Enemigos derrotados: {currentKills}\n" +
-            $"Valoración: {valoracion}";
+        if (resultadoTexto != null)
+        {
+            resultadoTexto.text =
+                $"Disparos: {totalDisparos}\n" +
+                $"Aciertos: {disparosAcertados} ({(ratioAcierto * 100f):F1}%)\n" +
+                $"Daño recibido: {dañoTotalRecibido:F1}\n" +
+                $"Daño infligido: {dañoTotalInfligido:F1}\n" +
+                $"Enemigos derrotados: {currentKills}\n" +
+                $"Valoración: {valoracion}";
+        }
 
         StartCoroutine(AutoNextGameAfterDelay());
     }
@@ -200,10 +196,6 @@ public class HUDManager : MonoBehaviour
             string valoracion = CalcularValoracion(ratioAcierto);
             scoreFinal = ValoracionALevelScore(valoracion);
         }
-        else
-        {
-            scoreFinal = 0;
-        }
 
         if (ScoreManager.Instance != null)
         {
@@ -213,6 +205,14 @@ public class HUDManager : MonoBehaviour
         else
         {
             Debug.LogWarning("ScoreManager.Instance no encontrado al reportar puntuación.");
+        }
+    }
+
+    private void PlaySound(AudioClip clip)
+    {
+        if (clip != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(clip);
         }
     }
 
