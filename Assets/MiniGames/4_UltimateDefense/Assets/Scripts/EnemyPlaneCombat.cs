@@ -104,13 +104,16 @@ public class EnemyPlaneCombat : MonoBehaviour, IDamageable
     {
         if (!string.IsNullOrEmpty(explosionTag))
         {
-            GameObject fx = ObjectPooler.Instance.SpawnFromPool(explosionTag, transform.position, Quaternion.identity);
+            GameObject fx = ObjectPooler.Instance.SpawnFromPool("Explosion Effect Pool", transform.position, Quaternion.identity);
+
             StartCoroutine(DisableAfterSeconds(fx, 7f));
         }
 
         if (explosionSound != null)
         {
-            AudioSource.PlayClipAtPoint(explosionSound, transform.position, explosionSoundVolume);
+            AudioSource.PlayClipAtPoint(explosionSound, Camera.main.transform.position, explosionSoundVolume);
+
+
         }
 
         gameObject.SetActive(false);

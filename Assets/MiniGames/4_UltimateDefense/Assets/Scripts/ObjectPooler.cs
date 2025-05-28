@@ -44,18 +44,41 @@ public class ObjectPooler : MonoBehaviour
     {
         if (!poolDictionary.ContainsKey(tag))
         {
-            Debug.LogWarning($"Pool with tag {tag} doesn't exist.");
+            Debug.LogWarning($"[ObjectPooler] Pool with tag '{tag}' doesn't exist.");
             return null;
         }
 
-        GameObject objToSpawn = poolDictionary[tag].Dequeue();
+        // Protección: buscar objeto válido
+        GameObject objToSpawn = null;
+        int attempts = 0;
+        int maxAttempts = poolDictionary[tag].Count;
 
-        objToSpawn.SetActive(true);
+        while (attempts < maxAttempts)
+        {
+            objToSpawn = poolDictionary[tag].Dequeue();
+
+
+            if (objToSpawn != null)
+            {
+                break;
+            }
+
+            attempts++;
+        }
+
+        if (objToSpawn == null)
+        {
+            Debug.LogWarning($"[ObjectPooler] All objects in pool '{tag}' are missing or destroyed.");
+            return null;
+        }
+
         objToSpawn.transform.position = position;
         objToSpawn.transform.rotation = rotation;
+        objToSpawn.SetActive(true);
 
         poolDictionary[tag].Enqueue(objToSpawn);
 
         return objToSpawn;
     }
+
 }
